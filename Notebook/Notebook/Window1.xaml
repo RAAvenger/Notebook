@@ -1,0 +1,14 @@
+﻿<Window x:Class="Notebook.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Notebook"
+        mc:Ignorable="d"
+        Title="Window1" Height="450" Width="800">
+    <Grid>
+        <TextBox Name="test" Width="150" Height="30" HorizontalAlignment="Left" TextChanged="Test_TextChanged">lalala</TextBox>
+        <TextBox Name="test2" Width="150" Height="30" HorizontalAlignment="Left" Margin="150" TextChanged="Test_TextChanged">lelele</TextBox>
+        <Button Name="b" Width="150" Height="30" HorizontalAlignment="Right" Click="Button_Click">laylaylay</Button>
+    </Grid>
+</Window>
