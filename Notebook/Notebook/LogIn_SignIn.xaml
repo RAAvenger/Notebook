@@ -38,8 +38,28 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="textBlock_LogIn_Username" Text="نام کاربری" FontSize="20" TextAlignment="Right" Width="110" Height="30" Grid.Column="3" Grid.Row="1"/>
                 <TextBox Name="textBox_LogIn_Username" FontSize="18" TextAlignment="Center" Width="250" Height="30" Grid.Column="1" Grid.Row="1" TextChanged="TextBox_LogIn_Username_TextChanged"/>
+                <Grid Name="grid_LogIn_Username_Error" Grid.Column="1" Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                </Grid>
                 <TextBlock Name="textBlock_LogIn_Password" Text="رمز عبور" FontSize="20" TextAlignment="Right" Width="110" Height="30" Grid.Column="3" Grid.Row="3"/>
                 <PasswordBox Name="passwordBox_LogIn_Password" HorizontalContentAlignment="Center" Width="250" Height="30" Grid.Column="1" Grid.Row="3" PasswordChanged="PasswordBox_LogIn_Password_PasswordChanged"/>
+                <Grid Name="grid_LogIn_Password_Error" Grid.Column="1" Grid.Row="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                </Grid>
                 <Button Name="button_LogIn_SignIn"  Grid.ColumnSpan="5" Grid.Row="5" Click="Button_SignIn_Click">
                     <Button.Template>
                         <ControlTemplate>
@@ -101,10 +121,40 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="textBlock_SignIn_Username" Text="نام کاربری" FontSize="20" TextAlignment="Right" Width="110" Height="30" Grid.Column="3" Grid.Row="1"/>
                 <TextBox Name="textBox_SignIn_Username" FontSize="18" TextAlignment="Center" Width="250" Height="30" Grid.Column="1" Grid.Row="1" TextChanged="TextBox_SignIn_Username_TextChanged"/>
+                <Grid Name="grid_SignIn_Username_Error" Grid.Column="1" Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                </Grid>
                 <TextBlock Name="textBlock_SignIn_Password" Text="رمز عبور" FontSize="20" TextAlignment="Right" Width="110" Height="30" Grid.Column="3" Grid.Row="3"/>
                 <PasswordBox Name="passwordBox_SignIn_Password" HorizontalContentAlignment="Center" Width="250" Height="30" Grid.Column="1" Grid.Row="3" PasswordChanged="PasswordBox_SignIn_Password_PasswordChanged"/>
+                <Grid Name="grid_SignIn_Password_Error" Grid.Column="1" Grid.Row="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                </Grid>
                 <TextBlock Name="textBlock_SignIn_PasswordConfirmation" Text="تکرار رمز عبور" FontSize="20" TextAlignment="Right" Width="110" Height="30" Grid.Column="3" Grid.Row="5"/>
                 <PasswordBox Name="passwordBox_SignIn_Confirmation" HorizontalContentAlignment="Center" Width="250" Height="30" Grid.Column="1" Grid.Row="5" PasswordChanged="PasswordBox_SignIn_Confirmation_PasswordChanged"/>
+                <Grid Name="grid_SignIn_Confirmation_Error" Grid.Column="1" Grid.Row="6">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                </Grid>
                 <Button Name="button_SignIn_Submit" Grid.Row="6" Grid.ColumnSpan="5" Margin="0,25,0,-25" Click="Button_SignIn_Submit_Click">
                     <Button.Template>
                         <ControlTemplate>
@@ -129,4 +179,4 @@
             </Grid>
         </Border>
     </Grid>
-</Window>  
+</Window>
