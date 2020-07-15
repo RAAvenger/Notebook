@@ -15,7 +15,7 @@ namespace Notbook {
         /// <summary>
         /// struct for Errors.
         /// </summary>
-        enum ErrorMessage { required, dontMatchPattern, wrongPassword, wrongPasswordConfirmation, usernameAlredyExists };
+        enum ErrorMessage { required, dontMatchPattern, invalidUser, wrongPasswordConfirmation, usernameAlredyExists };
         struct Error {
             public string FieldName;
             public ErrorMessage Message;
@@ -53,17 +53,24 @@ namespace Notbook {
         /// submit Log In Data. 
         /// </summary>
         private void Button_LogIn_Submit_Click(object sender, RoutedEventArgs e) {
-           if( database.UserValidation(textBox_LogIn_Username.Text, passwordBox_LogIn_Password.Password))
+            if (database.UserValidation(textBox_LogIn_Username.Text, passwordBox_LogIn_Password.Password))
                 MessageBox.Show("yes");
-           else
+            else {
+                listErrors.Add(new Error("LogIn_Password", ErrorMessage.invalidUser));
+                ValidateForm();
                 MessageBox.Show("no");
+            }
         }
 
         /// <summary>
         /// submit Sign In Data
         /// </summary>
         private void Button_SignIn_Submit_Click(object sender, RoutedEventArgs e) {
-            database.AddNewUser(textBox_SignIn_Username.Text, passwordBox_SignIn_Password.Password);
+            if (database.AddNewUser(textBox_SignIn_Username.Text, passwordBox_SignIn_Password.Password))
+                MessageBox.Show("done!");
+            else
+                MessageBox.Show("Error");
+
         }
 
         /// <summary>
@@ -77,16 +84,15 @@ namespace Notbook {
                 for (int i = elementErrors.Count - 1; i >= 0; i--)
                     listErrors.RemoveAt(elementErrors[i]);
             }
+            PasswordBox_LogIn_Password_PasswordChanged(null, null);
             ValidateForm();
         }
         private void PasswordBox_LogIn_Password_PasswordChanged(object sender, RoutedEventArgs e) {
+            List<int> elementErrors = FindFieldErrorsIndexes(listErrors, "LogIn_Password");
+            for (int i = elementErrors.Count - 1; i >= 0; i--)
+                listErrors.RemoveAt(elementErrors[i]);
             if (String.IsNullOrEmpty(passwordBox_LogIn_Password.Password) || String.IsNullOrWhiteSpace(passwordBox_LogIn_Password.Password))
                 listErrors.Add(new Error("LogIn_Password", ErrorMessage.required));
-            else {
-                List<int> elementErrors = FindFieldErrorsIndexes(listErrors, "LogIn_Password");
-                for (int i = elementErrors.Count - 1; i >= 0; i--)
-                    listErrors.RemoveAt(elementErrors[i]);
-            }
             ValidateForm();
         }
 
@@ -94,12 +100,14 @@ namespace Notbook {
         /// Sign In Input Validation
         /// </summary>
         private void TextBox_SignIn_Username_TextChanged(object sender, TextChangedEventArgs e) {
+            List<int> elementErrors = FindFieldErrorsIndexes(listErrors, "SignIn_Username");
+            for (int i = elementErrors.Count - 1; i >= 0; i--)
+                listErrors.RemoveAt(elementErrors[i]);
             if (String.IsNullOrEmpty(textBox_SignIn_Username.Text) || String.IsNullOrWhiteSpace(textBox_SignIn_Username.Text))
                 listErrors.Add(new Error("SignIn_Username", ErrorMessage.required));
-            else {
-                List<int> elementErrors = FindFieldErrorsIndexes(listErrors, "SignIn_Username");
-                for (int i = elementErrors.Count - 1; i >= 0; i--)
-                    listErrors.RemoveAt(elementErrors[i]);
+            else if (database.FindUser(textBox_SignIn_Username.Text)) {
+                listErrors.Add(new Error("SignIn_Username", ErrorMessage.usernameAlredyExists));
+                MessageBox.Show("alredy exists.");
             }
             ValidateForm();
         }
@@ -111,15 +119,20 @@ namespace Notbook {
                 for (int i = elementErrors.Count - 1; i >= 0; i--)
                     listErrors.RemoveAt(elementErrors[i]);
             }
+            PasswordBox_SignIn_Confirmation_PasswordChanged(null, null);
             ValidateForm();
         }
+        /// <summary>
+        /// check password confirmation: required, confirmation match password.
+        /// </summary>
         private void PasswordBox_SignIn_Confirmation_PasswordChanged(object sender, RoutedEventArgs e) {
+            List<int> elementErrors = FindFieldErrorsIndexes(listErrors, "SignIn_Confirmation");
+            for (int i = elementErrors.Count - 1; i >= 0; i--)
+                listErrors.RemoveAt(elementErrors[i]);
             if (String.IsNullOrEmpty(passwordBox_SignIn_Confirmation.Password) || String.IsNullOrWhiteSpace(passwordBox_SignIn_Confirmation.Password))
                 listErrors.Add(new Error("SignIn_Confirmation", ErrorMessage.required));
-            else {
-                List<int> elementErrors = FindFieldErrorsIndexes(listErrors, "SignIn_Confirmation");
-                for (int i = elementErrors.Count - 1; i >= 0; i--)
-                    listErrors.RemoveAt(elementErrors[i]);
+            else if (passwordBox_SignIn_Confirmation.Password != passwordBox_SignIn_Password.Password) {
+                listErrors.Add(new Error("SignIn_Confirmation", ErrorMessage.wrongPasswordConfirmation));
             }
             ValidateForm();
         }
@@ -159,8 +172,8 @@ namespace Notbook {
                             row = 1;
                             break;
                         }
-                        case ErrorMessage.wrongPassword: {
-                            errorText = "رمز ورود غلط است";
+                        case ErrorMessage.invalidUser: {
+                            errorText = "نام کاربری یا رمز ورود غلط است";
                             row = 2;
                             break;
                         }

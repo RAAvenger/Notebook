@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="Window1" Height="450" Width="800">
     <Grid>
-        <TextBox Name="test" Width="150" Height="30" HorizontalAlignment="Left" TextChanged="Test_TextChanged">lalala</TextBox>
-        <TextBox Name="test2" Width="150" Height="30" HorizontalAlignment="Left" Margin="150" TextChanged="Test_TextChanged">lelele</TextBox>
-        <Button Name="b" Width="150" Height="30" HorizontalAlignment="Right" Click="Button_Click">laylaylay</Button>
+        <TextBox Name="test" Width="150" Height="30" HorizontalAlignment="Left">lalala</TextBox>
+        <TextBox Name="test2" Width="150" Height="30" HorizontalAlignment="Left" Margin="150">lelele</TextBox>
+        <Button Name="b" Width="150" Height="30" HorizontalAlignment="Right">laylaylay</Button>
     </Grid>
 </Window>

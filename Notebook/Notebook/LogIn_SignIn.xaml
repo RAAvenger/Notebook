@@ -1,7 +1,10 @@
 ﻿<Window 
     x:Class="Notbook.LogIn_SignIn"  
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Notebook"
     Title="Log In" 
     MinWidth="1180" 
     MinHeight="620" 
@@ -19,7 +22,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Border Name="form_LogIn" Visibility="Visible" BorderBrush="Black" BorderThickness="1" CornerRadius="20" Grid.Column="1" Grid.Row="1" Margin="100, 100, 100, 100">
-            <Grid >
+            <Grid Height="241" Margin="0.2,0.2,-0.4,0" VerticalAlignment="Top" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" MinHeight="50"/>
                     <RowDefinition Height="Auto"/>
@@ -37,7 +40,7 @@
                     <ColumnDefinition Width="*" MinWidth="50"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="textBlock_LogIn_Username" Text="نام کاربری" FontSize="20" TextAlignment="Right" Width="110" Height="30" Grid.Column="3" Grid.Row="1"/>
-                <TextBox Name="textBox_LogIn_Username" FontSize="18" TextAlignment="Center" Width="250" Height="30" Grid.Column="1" Grid.Row="1" TextChanged="TextBox_LogIn_Username_TextChanged"/>
+                <TextBox Name="textBox_LogIn_Username" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" Width="250" Height="30" Grid.Column="1" Grid.Row="1" TextChanged="TextBox_LogIn_Username_TextChanged"/>
                 <Grid Name="grid_LogIn_Username_Error" Grid.Column="1" Grid.Row="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -48,8 +51,8 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                 </Grid>
-                <TextBlock Name="textBlock_LogIn_Password" Text="رمز عبور" FontSize="20" TextAlignment="Right" Width="110" Height="30" Grid.Column="3" Grid.Row="3"/>
-                <PasswordBox Name="passwordBox_LogIn_Password" HorizontalContentAlignment="Center" Width="250" Height="30" Grid.Column="1" Grid.Row="3" PasswordChanged="PasswordBox_LogIn_Password_PasswordChanged"/>
+                <TextBlock Name="textBlock_LogIn_Password" Text="رمز عبور" FontSize="20" TextAlignment="Right"  Width="110" Height="30" Grid.Column="3" Grid.Row="3"/>
+                <PasswordBox Name="passwordBox_LogIn_Password" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="250" Height="30" Grid.Column="1" Grid.Row="3" PasswordChanged="PasswordBox_LogIn_Password_PasswordChanged"/>
                 <Grid Name="grid_LogIn_Password_Error" Grid.Column="1" Grid.Row="4">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>

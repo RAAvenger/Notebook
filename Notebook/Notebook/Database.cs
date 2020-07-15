@@ -10,13 +10,25 @@ namespace Notebook {
         /// struct for Errors.
         /// </summary>
         enum ErrorMessage { required, dontMatchPattern, wrongPassword, wrongPasswordConfirmation, usernameAlredyExists };
-        struct Error {
-            public string FieldName;
-            public ErrorMessage Message;
-            public Error(string FieldName, ErrorMessage Message) {
-                this.FieldName = FieldName;
-                this.Message = Message;
+        
+        /// <summary>
+        /// create and open Connection to database.
+        /// </summary>
+        private bool Connect() {
+            try {
+                this.connection = new SqlConnection("data source=.;initial catalog=Notebook;integrated security=True;");
+                this.connection.Open();
+                return true;
             }
+            catch (Exception e) {
+                return false;
+            }
+        }
+        /// <summary>
+        /// Close connection to database.
+        /// </summary>
+        private void Disconnect() {
+            this.connection.Close();
         }
 
         public bool AddNewUser(string username, string password) {
@@ -82,24 +94,34 @@ namespace Notebook {
             }
         }
 
-        /// <summary>
-        /// create and open Connection to database.
-        /// </summary>
-        private bool Connect() {
+        public bool FindUser(string username) {
             try {
-                this.connection = new SqlConnection("data source=.;initial catalog=Notebook;integrated security=True;");
-                this.connection.Open();
-                return true;
+                Connect();
+                SqlCommand command = new SqlCommand("SELECT * FROM Users where username = @username", this.connection);
+                command.Parameters.AddWithValue("@username", username);
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.Read()) {
+                    Disconnect();
+                    return true;
+                }
+                else {
+                    Disconnect();
+                    return false;
+                }
             }
             catch (Exception e) {
                 return false;
             }
         }
-        /// <summary>
-        /// Close connection to database.
-        /// </summary>
-        private void Disconnect() {
-            this.connection.Close();
+        public DataSet GetDS() {
+            Connect();
+            SqlDataAdapter da = new SqlDataAdapter();
+            SqlCommand command = new SqlCommand("SELECT * FROM Users", this.connection);
+            da.SelectCommand = command;
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            Disconnect();
+            return ds;
         }
     }
 }
