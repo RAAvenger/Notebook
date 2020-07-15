@@ -3,83 +3,158 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Notebook"
-        mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800">
+        xmlns:local="clr-namespace:Notebook">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="32" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />
+    </WindowChrome.WindowChrome>
     <Grid>
         <Grid.Resources>
-        <Style TargetType="{x:Type Button}" x:Key="formatTextStyle">
-            <Setter Property="FontFamily" Value="Palatino Linotype"></Setter>
-            <Setter Property="Width" Value="30"></Setter>
-            <Setter Property="FontSize" Value ="14"></Setter>
-            <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"></Setter>
-        </Style>
+            <Style x:Key="TitleBarButtonStyle" TargetType="Button">
+                <Setter Property="Foreground" Value="{DynamicResource WindowTextBrush}" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+                <Setter Property="IsTabStop" Value="False" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border
+					x:Name="border"
+					Background="Transparent"
+					BorderThickness="0"
+					SnapsToDevicePixels="true">
+                                <ContentPresenter
+						x:Name="contentPresenter"
+						Margin="0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						Focusable="False"
+						RecognizesAccessKey="True" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource MouseOverOverlayBackgroundBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource PressedOverlayBackgroundBrush}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
-        <Style TargetType="{x:Type Button}" x:Key="formatImageStyle">
-            <Setter Property="Width" Value="30"></Setter>
-            <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"></Setter>
-        </Style>
-    </Grid.Resources>
-
-    <DockPanel Name="mainPanel">
-
-        <!-- This tool bar contains all the editing buttons. -->
-        <ToolBar Name="mainToolBar" Height="30" DockPanel.Dock="Top">
-
-            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
-                <Image Source="Images\EditCut.png"></Image>
-            </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy">
-                <Image Source="Images\EditCopy.png"></Image>
-            </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Paste">
-                <Image Source="Images\EditPaste.png"></Image>
-            </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo">
-                <Image Source="Images\EditUndo.png"></Image>
-            </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo">
-                <Image Source="Images\EditRedo.png"></Image>
-            </Button>
-
-            <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
-                <TextBlock FontWeight="Bold">B</TextBlock>
-            </Button>
-            <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic">
-                <TextBlock FontStyle="Italic" FontWeight="Bold">I</TextBlock>
-            </Button>
-            <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline">
-                <TextBlock TextDecorations="Underline" FontWeight="Bold">U</TextBlock>
-            </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font">
-                <Image Source="Images\CharacterGrowFont.png"></Image>
-            </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font">
-                <Image Source="Images\CharacterShrinkFont.png"></Image>
-            </Button>
-
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullets">
-                <Image Source="Images\ListBullets.png"></Image>
-            </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Numbering">
-                <Image Source="Images\ListNumbering.png"></Image>
-            </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align Left">
-                <Image Source="Images\ParagraphLeftJustify.png"></Image>
-            </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align Center">
-                <Image Source="Images\ParagraphCenterJustify.png"></Image>
-            </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align Right">
-                <Image Source="Images\ParagraphRightJustify.png"></Image>
-            </Button>
-            
-
-        </ToolBar>
-
-        <!-- By default pressing tab moves focus to the next control. Setting AcceptsTab to true allows the 
-           RichTextBox to accept tab characters. -->
-        <RichTextBox Name="mainRTB" AcceptsTab="True"></RichTextBox>
-    </DockPanel>
+            <Style x:Key="TitleBarCloseButtonStyle" TargetType="Button">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+                <Setter Property="IsTabStop" Value="False" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border
+					x:Name="border"
+					Background="Transparent"
+					BorderThickness="0"
+					SnapsToDevicePixels="true">
+                                <ContentPresenter
+						x:Name="contentPresenter"
+						Margin="0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						Focusable="False"
+						RecognizesAccessKey="True" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource MouseOverWindowCloseButtonBackgroundBrush}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource MouseOverWindowCloseButtonForegroundBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource PressedWindowCloseButtonBackgroundBrush}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource MouseOverWindowCloseButtonForegroundBrush}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Image
+		Grid.Column="0"
+		Width="22"
+		Height="22"
+		Margin="4"
+		Source="/Icons/VidCoder32.png" />
+        <TextBlock
+		Grid.Column="1"
+		Margin="4 0 0 0"
+		VerticalAlignment="Center"
+		FontSize="14"
+		Text="{Binding WindowTitle}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource WindowTitleBarInactiveText}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <Button
+		Grid.Column="2"
+		RenderOptions.EdgeMode="Aliased"
+		Style="{StaticResource TitleBarButtonStyle}">
+            <Path
+			Width="46"
+			Height="32"
+			Data="M 18,15 H 28"
+			Stroke="{Binding Path=Foreground,
+							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+			StrokeThickness="1" />
+        </Button>
+        <Button
+		Name="maximizeButton"
+		Grid.Column="3"
+		Style="{StaticResource TitleBarButtonStyle}">
+            <Path
+			Width="46"
+			Height="32"
+			Data="M 18.5,10.5 H 27.5 V 19.5 H 18.5 Z"
+			Stroke="{Binding Path=Foreground,
+							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+			StrokeThickness="1" />
+        </Button>
+        <Button
+		Name="restoreButton"
+		Grid.Column="3"
+		Style="{StaticResource TitleBarButtonStyle}">
+            <Path
+			Width="46"
+			Height="32"
+			Data="M 18.5,12.5 H 25.5 V 19.5 H 18.5 Z M 20.5,12.5 V 10.5 H 27.5 V 17.5 H 25.5"
+			Stroke="{Binding Path=Foreground,
+							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+			StrokeThickness="1" />
+        </Button>
+        <Button
+		Grid.Column="4"
+		Style="{StaticResource TitleBarCloseButtonStyle}">
+            <Path
+			Width="46"
+			Height="32"
+			Data="M 18,11 27,20 M 18,20 27,11"
+			Stroke="{Binding Path=Foreground,
+							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+			StrokeThickness="1" />
+        </Button>
     </Grid>
+    
 </Window>
