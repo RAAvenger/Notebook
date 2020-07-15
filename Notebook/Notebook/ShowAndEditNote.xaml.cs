@@ -22,18 +22,40 @@ namespace Notebook {
 
         #region titleBar Buttons
         /// <summary>
+        /// back to prev Page. 
+        /// </summary>
+        private void Button_Back_Click(object sender, RoutedEventArgs e) {
+            this.Close();
+        }
+        /// <summary>
         /// Close Window.
         /// </summary>
         private void Button_Close_Click(object sender, RoutedEventArgs e) {
             Application.Current.Shutdown();
         }
         /// <summary>
-        /// back to prev Page. 
+        /// call AdjustWindowSize() to change window size.
         /// </summary>
-        private void Button_Back_Click(object sender, RoutedEventArgs e) {
-            this.Close();
+        private void Button_Maximize_Click(object sender, RoutedEventArgs e) {
+            AdjustWindowSize();
         }
-
+        /// <summary>
+        /// Minimize Window.
+        /// </summary>
+        private void Button_Minimize_Click(object sender, RoutedEventArgs e) {
+            this.WindowState = WindowState.Minimized;
+        }
+        /// <summary>
+        /// Change window size from original size to maximum size and vice versa.
+        /// </summary>
+        private void AdjustWindowSize() {
+            if (this.WindowState == WindowState.Maximized) {
+                this.WindowState = WindowState.Normal;
+            }
+            else {
+                this.WindowState = WindowState.Maximized;
+            }
+        }
         #endregion titleBar Buttons
         #region Page Buttons
         /// <summary>
@@ -112,6 +134,7 @@ namespace Notebook {
             }
             catch (Exception e) { }
         }
+
         #endregion User Functions
 
     }

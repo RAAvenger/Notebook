@@ -23,7 +23,6 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10" />
-            <ColumnDefinition Width="40" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="10" />
         </Grid.ColumnDefinitions>
@@ -60,7 +59,7 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Name="button_Minimize" ToolTip="Minimize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="2">
+            <Button Name="button_Minimize" ToolTip="Minimize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="2" Click="Button_Minimize_Click">
                 <Button.Style>
                     <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
                         <Setter Property="Background" Value="#EEEEEE"/>
@@ -72,7 +71,7 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Name="button_Maximize" ToolTip="Maximize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="3">
+            <Button Name="button_Maximize" ToolTip="Maximize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="3" Click="Button_Maximize_Click">
                 <Button.Style>
                     <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
                         <Setter Property="Background" Value="#EEEEEE"/>
@@ -84,7 +83,7 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Name="button_Close" ToolTip="Close" BorderBrush="{x:Null}" BorderThickness="0" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="4" Click="Button_Close_Click">
+            <Button Name="button_Close" ToolTip="Close" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="4" Click="Button_Close_Click">
                 <Button.Style>
                     <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
                         <Setter Property="Background" Value="#EEEEEE"/>
@@ -97,7 +96,7 @@
                 </Button.Style>
             </Button>
         </Grid>
-        <Border Name="page_EditNote" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="1" CornerRadius="20" >
+        <Border Name="page_EditNote" Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="1" CornerRadius="20" >
             <Grid>
                 <Grid.Resources>
                     <Style TargetType="{x:Type Button}" x:Key="formatTextStyle">
