@@ -10,6 +10,7 @@ namespace Notebook {
         private List<Error> listErrors;
         private Database database;
         private MainPage homePage;
+        private MainPage mainPage;
         #endregion variables.
         #region Error data structur
         /// <summary>
@@ -26,14 +27,14 @@ namespace Notebook {
         }
         #endregion
 
-        public LogIn_SignIn(MainPage homePage) {
+        public LogIn_SignIn(MainPage homePage, Database database) {
             InitializeComponent();
             this.homePage = homePage;
+            this.database = database;
             this.isLogIn = true;
             this.listErrors = new List<Error>();
             this.listErrors.Add(new Error("LogIn_Username", ErrorMessage.required));
             this.listErrors.Add(new Error("LogIn_Password", ErrorMessage.required));
-            this.database = new Database();
             button_LogIn_Submit.IsEnabled = false;
         }
 
@@ -116,7 +117,7 @@ namespace Notebook {
         }
 
         /// <summary>
-        /// check username: required, already exists in detabase.
+        /// check username: required, already exists in database.
         /// </summary>
         private void TextBox_SignIn_Username_TextChanged(object sender, TextChangedEventArgs e) {
             List<int> elementErrors = FindFieldErrorsIndexes(listErrors, "SignIn_Username");

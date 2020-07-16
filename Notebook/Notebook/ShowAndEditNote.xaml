@@ -10,6 +10,7 @@
     MinWidth="1180" 
     MinHeight="655" 
     Background="White"
+    WindowStartupLocation="CenterScreen"
 >
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="32"/>

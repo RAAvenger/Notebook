@@ -37,7 +37,7 @@ CREATE PROCEDURE NewUser
 	@username Nvarchar(25), @password text
 AS
 	BEGIN TRY
-		INSERT INTO Notebook.Users( username, password )
+		INSERT INTO Users( username, password )
 		VALUES( @username, @password ) 
 	END TRY
 	BEGIN CATCH
@@ -49,7 +49,7 @@ CREATE PROCEDURE AddNewNote
 	@writerID	int, @title	nvarchar(50), @text	text
 AS
 	BEGIN TRY
-		INSERT INTO Notebook.Notes( writerID, title, text)
+		INSERT INTO Notes( writerID, title, text)
 		VALUES( @writerID, @title, @text ) 
 	END TRY
 	BEGIN CATCH

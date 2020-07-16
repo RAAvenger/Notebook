@@ -20,7 +20,6 @@ CREATE TABLE Notes(
 	title Nvarchar(50) NULL,
 	text Text NULL,
 	CONSTRAINT PK_Notes PRIMARY KEY (id, writerID),
-	CONSTRAINT title UNIQUE CLUSTERED (title),
 	CONSTRAINT 
 		writes FOREIGN KEY (writerID) 
 		REFERENCES Users (id) 

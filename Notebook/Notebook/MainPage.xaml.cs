@@ -7,14 +7,16 @@ namespace Notebook {
     /// </summary>
     public partial class MainPage : Window {
         #region variables.
-        private LogIn_SignIn Page_logIn;
-        private ShowAndEditNote page_Note;
         private int userID;
         private string username;
+        private Database database;
+        private LogIn_SignIn Page_logIn;
+        private ShowAndEditNote page_Note;
         #endregion variables.
         public MainPage() {
             InitializeComponent();
-            Page_logIn = new LogIn_SignIn(this);
+            this.database = new Database();
+            Page_logIn = new LogIn_SignIn(this,this.database);
             Page_logIn.Show();
             this.Hide();
         }
@@ -75,7 +77,7 @@ namespace Notebook {
         }
 
         private void Button_Add_Click(object sender, RoutedEventArgs e) {
-            page_Note = new ShowAndEditNote();
+            page_Note = new ShowAndEditNote(this,this.database, userID);
             page_Note.Show();
             this.Hide();
         }

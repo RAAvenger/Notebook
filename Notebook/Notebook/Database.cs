@@ -149,9 +149,15 @@ namespace Notebook {
                 param = command.Parameters.Add("@writerID", SqlDbType.Int);
                 param.Value = writerID;
                 param = command.Parameters.Add("@title", SqlDbType.NVarChar, 50);
-                param.Value = title;
+                if (!String.IsNullOrEmpty(title))
+                    param.Value = title;
+                else
+                    param.Value = "null";
                 param = command.Parameters.Add("@text", SqlDbType.Text);
-                param.Value = text;
+                if (!String.IsNullOrEmpty(text))
+                    param.Value = text;
+                else
+                    param.Value = "null";
                 command.ExecuteNonQuery();
                 Disconnect();
                 return 1;
@@ -160,7 +166,7 @@ namespace Notebook {
                 return -1;
             }
         }
-      
+
         #region security
         /// <summary>
         /// hash the password.

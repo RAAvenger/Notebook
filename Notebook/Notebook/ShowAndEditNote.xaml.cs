@@ -8,13 +8,23 @@ namespace Notebook {
     /// Interaction logic for Edit_Note.xaml
     /// </summary>
     public partial class ShowAndEditNote : Window {
+        #region variables
         private bool newNoteFlage = false;
         private bool noteTitleChangedFlag;
         private bool noteTextChangedFlag;
+        private int userID;
+        private int noteID;
         private string noteTitle;
         private string noteText;
-        public ShowAndEditNote() {
+        private Database database;
+        private MainPage homePage;
+        #endregion variables
+        public ShowAndEditNote(MainPage homePage, Database database, int userID) {
             InitializeComponent();
+            this.homePage = homePage;
+            this.database = database;
+            this.userID = userID;
+            this.newNoteFlage = true;
             this.noteTextChangedFlag = false;
             this.noteTitleChangedFlag = false;
             CheckNoteChanges();
@@ -62,22 +72,35 @@ namespace Notebook {
         /// save changes.
         /// </summary>
         private void Button_OK_Click(object sender, RoutedEventArgs e) {
-            this.noteTextChangedFlag = false;
-            this.noteTitleChangedFlag = false;
-            this.noteTitle = textBox_Title.Text;
-            this.noteText = GetTextFromRichTextBox(richTextBox_Note);
-            CheckNoteChanges();
+            if (this.newNoteFlage) {
+                database.AddNewNote(this.userID, textBox_Title.Text.Trim(), GetTextFromRichTextBox(richTextBox_Note).Trim());
+                this.homePage.Show();
+                this.Close();
+            }
+            else {
+                this.noteTextChangedFlag = false;
+                this.noteTitleChangedFlag = false;
+                this.noteTitle = textBox_Title.Text.Trim();
+                this.noteText = GetTextFromRichTextBox(richTextBox_Note).Trim();
+                CheckNoteChanges();
+            }
         }
         /// <summary>
         /// discard changes.
         /// </summary>
         private void Button_Cancel_Click(object sender, RoutedEventArgs e) {
-            textBox_Title.Text = this.noteTitle;
-            richTextBox_Note.Document.Blocks.Clear();
-            richTextBox_Note.Document.Blocks.Add(new Paragraph(new Run(this.noteText)));
-            this.noteTextChangedFlag = false;
-            this.noteTitleChangedFlag = false;
-            CheckNoteChanges();
+            if (this.newNoteFlage) {
+                this.homePage.Show();
+                this.Close();
+            }
+            else {
+                textBox_Title.Text = this.noteTitle;
+                richTextBox_Note.Document.Blocks.Clear();
+                richTextBox_Note.Document.Blocks.Add(new Paragraph(new Run(this.noteText)));
+                this.noteTextChangedFlag = false;
+                this.noteTitleChangedFlag = false;
+                CheckNoteChanges();
+            }
         }
         #endregion Page Buttons
         #region TextChanged Functions
