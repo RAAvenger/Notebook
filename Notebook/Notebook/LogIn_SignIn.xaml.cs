@@ -63,6 +63,7 @@ namespace Notebook {
             int validationResult = database.UserValidation(textBox_LogIn_Username.Text, passwordBox_LogIn_Password.Password);
             if (validationResult > 0) {
                 this.homePage.SetUserIdAndUsername(validationResult, textBox_LogIn_Username.Text);
+                this.homePage.Refresh();
                 this.homePage.Show();
                 this.Close();
             }
@@ -80,7 +81,8 @@ namespace Notebook {
             textBox_SignIn_Username.Text = textBox_SignIn_Username.Text.Trim();
             int addewUserResult = database.AddNewUser(textBox_SignIn_Username.Text, passwordBox_SignIn_Password.Password);
             if (addewUserResult > 0) {
-                this.homePage.SetUserIdAndUsername(addewUserResult, textBox_LogIn_Username.Text);
+                this.homePage.SetUserIdAndUsername(addewUserResult, textBox_SignIn_Username.Text);
+                this.homePage.Refresh();
                 this.homePage.Show();
                 this.Close();
             }

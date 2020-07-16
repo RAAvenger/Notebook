@@ -1,6 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Data;
+using System.Windows;
 using System.Windows.Input;
-
 namespace Notebook {
     /// <summary>
     /// Interaction logic for MainPage.xaml
@@ -16,7 +17,7 @@ namespace Notebook {
         public MainPage() {
             InitializeComponent();
             this.database = new Database();
-            Page_logIn = new LogIn_SignIn(this,this.database);
+            Page_logIn = new LogIn_SignIn(this, this.database);
             Page_logIn.Show();
             this.Hide();
         }
@@ -30,6 +31,20 @@ namespace Notebook {
             textBlock_Welcome.Text = " خوش آمدید " + username + " سلام ";
         }
 
+        public void Refresh() {
+            DataSet t = database.GetUserNotes(this.userID);
+            NoteCards.Children.Clear();
+            foreach (DataRow pRow in t.Tables[0].Rows) {
+                NoteCard noteCard = new NoteCard(Int32.Parse(pRow.ItemArray.GetValue(0).ToString()),
+                    pRow.ItemArray.GetValue(2).ToString(),
+                    pRow.ItemArray.GetValue(3).ToString());
+                noteCard.Padding = new Thickness(3);
+                noteCard.Width = 280;
+                noteCard.Height = 200;
+                noteCard.MouseUp += NoteCard_MouseUp;
+                NoteCards.Children.Add(noteCard);
+            }
+        }
         #region titleBar Buttons
         /// <summary>
         /// Close Window.
@@ -67,17 +82,14 @@ namespace Notebook {
         private void NoteCard_MouseUp(object sender, MouseButtonEventArgs e) {
             NoteCard card = (NoteCard)sender;
             if (card != null) {
-                if (card.IsSelected) {
-                    card.UnSelected();
-                }
-                else {
-                    card.Selected();
-                }
+                this.page_Note = card.GetEditePage(this, this.database);
+                this.page_Note.Show();
+                this.Hide();
             }
         }
 
         private void Button_Add_Click(object sender, RoutedEventArgs e) {
-            page_Note = new ShowAndEditNote(this,this.database, userID);
+            page_Note = new ShowAndEditNote(this, this.database, userID);
             page_Note.Show();
             this.Hide();
         }

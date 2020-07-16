@@ -17,20 +17,20 @@
         </Style>
     </UserControl.Resources>
     <Grid Name="grid_Contaner" Background="#FF000000">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="2"/>
-                <RowDefinition Height="4*"/>
-                <RowDefinition Height="5"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="5"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Name="textBlock_Title" Text="تیتر" TextWrapping="Wrap" FontSize="16" TextAlignment="Center" Style="{StaticResource style_TextBlock}" Padding="2" Grid.Row="1" Grid.Column="1"/>
-            <Rectangle Fill="#ff000000" Grid.Row="2" Grid.Column="1"/>
-            <TextBlock Name="textBlock_ShortNote" Text="متن" TextWrapping="Wrap" FontSize="15" TextAlignment="Right" Style="{StaticResource style_TextBlock}" Padding="3" Grid.Row="3" Grid.Column="1"/>
-        </Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="5"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Name="textBlock_Title" TextWrapping="Wrap" FontSize="16" TextAlignment="Center" Style="{StaticResource style_TextBlock}" Padding="2" Grid.Row="1" Grid.Column="1"/>
+        <Rectangle Fill="#ff000000" Grid.Row="2" Grid.Column="1"/>
+        <TextBlock Name="textBlock_ShortNote" TextWrapping="Wrap" FontSize="15" TextAlignment="Right" Style="{StaticResource style_TextBlock}" Padding="3" Grid.Row="3" Grid.Column="1"/>
+    </Grid>
 </UserControl>

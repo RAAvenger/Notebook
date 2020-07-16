@@ -206,15 +206,18 @@ namespace Notebook {
         }
         #endregion security
 
-        public DataSet GetDS() {
+        public DataSet GetUserNotes(int writerID) {
             Connect();
-            SqlDataAdapter da = new SqlDataAdapter();
-            SqlCommand command = new SqlCommand("SELECT * FROM Users", this.connection);
-            da.SelectCommand = command;
-            DataSet ds = new DataSet();
-            da.Fill(ds);
+            SqlDataAdapter dataAdapter = new SqlDataAdapter();
+            SqlCommand command = new SqlCommand("SELECT * FROM Notes Where writerid = @writerID", this.connection);
+            SqlParameter param;
+            param = command.Parameters.Add("@writerID", SqlDbType.Int);
+            param.Value = writerID;
+            dataAdapter.SelectCommand = command;
+            DataSet result = new DataSet();
+            dataAdapter.Fill(result);
             Disconnect();
-            return ds;
+            return result;
         }
     }
 }

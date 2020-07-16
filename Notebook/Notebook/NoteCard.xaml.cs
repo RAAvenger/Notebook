@@ -19,7 +19,9 @@ namespace Notebook {
             InitializeComponent();
             this.id = id;
             this.noteTitle = noteTitle;
-            this.noteText = SmallText(noteText);
+            this.noteText = noteText;
+            textBlock_Title.Text = this.noteTitle;
+            textBlock_ShortNote.Text = SmallText(this.noteText);
             this.IsSelected = false;
         }
 
@@ -33,6 +35,9 @@ namespace Notebook {
             return text;
         }
 
+        public ShowAndEditNote GetEditePage(MainPage homePage, Database database) {
+            return new ShowAndEditNote(homePage, database, id, noteTitle, noteText);
+        }
         private void SetTextBlocksText() {
             textBlock_Title.Text = this.noteTitle;
             textBlock_ShortNote.Text = this.noteText;

@@ -123,11 +123,7 @@
                     <ColumnDefinition Width="50" />
                     <ColumnDefinition Width="10" />
                 </Grid.ColumnDefinitions>
-                <TextBox Name="textBox_Title" FontSize="20" TextAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Row="0" Grid.ColumnSpan="5" Margin="9" TextChanged="TextBox_Title_TextChanged">
-                    <TextBox.Text>
-                        تیتر
-                    </TextBox.Text>
-                </TextBox>
+                <TextBox Name="textBox_Title" FontSize="20" TextAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Row="0" Grid.ColumnSpan="5" Margin="9" TextChanged="TextBox_Title_TextChanged"/>
                 <Rectangle Fill="#FF008881" Grid.Row="1" Grid.Column="2" />
                 <DockPanel  Grid.Row="2" Grid.ColumnSpan="5"  Margin="5">
                     <ToolBar Name="mainToolBar" Height="30" DockPanel.Dock="Top" >
@@ -174,7 +170,7 @@
                     <RichTextBox Name="richTextBox_Note" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="RichTextBox_Edit_Note_TextChanged">
                         <FlowDocument TextAlignment="Right" FontSize="16">
                             <Paragraph>
-                                <Run Text="متن"/>
+                                <Run/>
                             </Paragraph>
                         </FlowDocument>
                     </RichTextBox>

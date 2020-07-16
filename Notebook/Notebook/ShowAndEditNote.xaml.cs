@@ -29,6 +29,25 @@ namespace Notebook {
             this.noteTitleChangedFlag = false;
             CheckNoteChanges();
         }
+        public ShowAndEditNote(MainPage homePage, Database database, int noteID, string noteTitle, string noteText) {
+            InitializeComponent();
+            this.homePage = homePage;
+            this.database = database;
+            this.noteID = noteID;
+            this.noteTitle = noteTitle;
+            this.noteText = noteText;
+            this.newNoteFlage = false;
+            textBox_Title.Text = this.noteTitle;
+            richTextBox_Note.Document.Blocks.Clear();
+            richTextBox_Note.Document.Blocks.Add(new Paragraph(new Run(this.noteText)));
+            this.noteTextChangedFlag = false;
+            this.noteTitleChangedFlag = false;
+            CheckNoteChanges();
+        }
+        public void SetParent(MainPage homePage, Database database) {
+            this.homePage = homePage;
+            this.database = database;
+        }
 
         #region titleBar Buttons
         /// <summary>
@@ -74,6 +93,7 @@ namespace Notebook {
         private void Button_OK_Click(object sender, RoutedEventArgs e) {
             if (this.newNoteFlage) {
                 database.AddNewNote(this.userID, textBox_Title.Text.Trim(), GetTextFromRichTextBox(richTextBox_Note).Trim());
+                homePage.Refresh();
                 this.homePage.Show();
                 this.Close();
             }
