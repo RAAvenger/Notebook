@@ -44,6 +44,18 @@ AS
 		SELECT 'ErorR'
 	END CATCH
 
+go
+CREATE PROCEDURE AddNewNote
+	@writerID	int, @title	nvarchar(50), @text	text
+AS
+	BEGIN TRY
+		INSERT INTO Notebook.Notes( writerID, title, text)
+		VALUES( @writerID, @title, @text ) 
+	END TRY
+	BEGIN CATCH
+		SELECT 'ErorR'
+	END CATCH
+
 go 
 CREATE FUNCTION UsersCount()
 RETURNS INT
