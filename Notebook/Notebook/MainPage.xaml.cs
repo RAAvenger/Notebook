@@ -6,9 +6,26 @@ namespace Notebook {
     /// Interaction logic for MainPage.xaml
     /// </summary>
     public partial class MainPage : Window {
-        private bool Flag = true;
+        #region variables.
+        private LogIn_SignIn Page_logIn;
+        private ShowAndEditNote page_Note;
+        private int userID;
+        private string username;
+        #endregion variables.
         public MainPage() {
             InitializeComponent();
+            Page_logIn = new LogIn_SignIn(this);
+            Page_logIn.Show();
+            this.Hide();
+        }
+
+        /// <summary>
+        /// set username and password.
+        /// </summary>
+        public void SetUserIdAndUsername(int userID, string username) {
+            this.userID = userID;
+            this.username = username;
+            textBlock_Welcome.Text = " خوش آمدید " + username + " سلام ";
         }
 
         #region titleBar Buttons
@@ -57,8 +74,10 @@ namespace Notebook {
             }
         }
 
-        private void NoteCards_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) {
-
+        private void Button_Add_Click(object sender, RoutedEventArgs e) {
+            page_Note = new ShowAndEditNote();
+            page_Note.Show();
+            this.Hide();
         }
     }
 }

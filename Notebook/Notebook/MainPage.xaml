@@ -100,7 +100,7 @@
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="سلام ... خوش آمدید" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2"/>
+                <TextBlock Name="textBlock_Welcome" Text="سلام ... خوش آمدید" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2"/>
                 <TextBlock Text="Your Notes" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
                 <TextBlock Text="خروج" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0"/>
             </Grid>
@@ -110,7 +110,7 @@
                 </WrapPanel>
             </ScrollViewer>
         </Grid>
-        <Button Name="button_Add" Width="50" Height="50" Grid.Row="3" Grid.Column="1" Margin="0,-35,0,0">
+        <Button Name="button_Add" Width="50" Height="50" Grid.Row="2" Grid.Column="1" Margin="346.4,0,346,9.8" Grid.RowSpan="2" VerticalAlignment="Bottom" Click="Button_Add_Click">
             <Button.Template>
                 <ControlTemplate>
                     <Ellipse Width="50" Height="50">

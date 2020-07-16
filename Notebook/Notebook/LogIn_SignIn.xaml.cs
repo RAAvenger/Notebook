@@ -1,17 +1,17 @@
-﻿using Notebook;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-namespace Notbook {
+namespace Notebook {
     public partial class LogIn_SignIn : Window {
-        /// <summary>
-        /// variables.
-        /// </summary>
+        #region variables.
         private bool isLogIn;
         private List<Error> listErrors;
         private Database database;
+        private MainPage homePage;
+        #endregion variables.
+        #region Error data structur
         /// <summary>
         /// struct for Errors.
         /// </summary>
@@ -24,16 +24,20 @@ namespace Notbook {
                 this.Message = Message;
             }
         }
+        #endregion
 
-        public LogIn_SignIn() {
+        public LogIn_SignIn(MainPage homePage) {
             InitializeComponent();
+            this.homePage = homePage;
             this.isLogIn = true;
-            button_LogIn_Submit.IsEnabled = false;
             this.listErrors = new List<Error>();
             this.listErrors.Add(new Error("LogIn_Username", ErrorMessage.required));
             this.listErrors.Add(new Error("LogIn_Password", ErrorMessage.required));
             this.database = new Database();
+            button_LogIn_Submit.IsEnabled = false;
         }
+
+        #region change page button OnClick function 
         /// <summary>
         /// show Sign In Form and Hide Log In Form
         /// </summary>
@@ -48,13 +52,19 @@ namespace Notbook {
             this.listErrors.Add(new Error("SignIn_Password", ErrorMessage.required));
             this.listErrors.Add(new Error("SignIn_Confirmation", ErrorMessage.required));
         }
-
+        #endregion
+        #region Submit Buttons OnClick Function
         /// <summary>
         /// submit Log In Data. 
         /// </summary>
         private void Button_LogIn_Submit_Click(object sender, RoutedEventArgs e) {
-            if (database.UserValidation(textBox_LogIn_Username.Text, passwordBox_LogIn_Password.Password))
-                MessageBox.Show("yes");
+            textBox_LogIn_Username.Text = textBox_LogIn_Username.Text.Trim();
+            int validationResult = database.UserValidation(textBox_LogIn_Username.Text, passwordBox_LogIn_Password.Password);
+            if (validationResult > 0) {
+                this.homePage.SetUserIdAndUsername(validationResult, textBox_LogIn_Username.Text);
+                this.homePage.Show();
+                this.Close();
+            }
             else {
                 listErrors.Add(new Error("LogIn_Password", ErrorMessage.invalidUser));
                 ValidateForm();
@@ -66,15 +76,21 @@ namespace Notbook {
         /// submit Sign In Data
         /// </summary>
         private void Button_SignIn_Submit_Click(object sender, RoutedEventArgs e) {
-            if (database.AddNewUser(textBox_SignIn_Username.Text, passwordBox_SignIn_Password.Password))
-                MessageBox.Show("done!");
+            textBox_SignIn_Username.Text = textBox_SignIn_Username.Text.Trim();
+            int addewUserResult = database.AddNewUser(textBox_SignIn_Username.Text, passwordBox_SignIn_Password.Password);
+            if (addewUserResult > 0) {
+                this.homePage.SetUserIdAndUsername(addewUserResult, textBox_LogIn_Username.Text);
+                this.homePage.Show();
+                this.Close();
+            }
             else
                 MessageBox.Show("Error");
 
         }
-
+        #endregion
+        #region User Inputs TextChanged Functions
         /// <summary>
-        /// Log In input Validation
+        /// check username: required.
         /// </summary>
         private void TextBox_LogIn_Username_TextChanged(object sender, TextChangedEventArgs e) {
             if (String.IsNullOrEmpty(textBox_LogIn_Username.Text) || String.IsNullOrWhiteSpace(textBox_LogIn_Username.Text))
@@ -87,6 +103,9 @@ namespace Notbook {
             PasswordBox_LogIn_Password_PasswordChanged(null, null);
             ValidateForm();
         }
+        /// <summary>
+        /// check password: required.
+        /// </summary>
         private void PasswordBox_LogIn_Password_PasswordChanged(object sender, RoutedEventArgs e) {
             List<int> elementErrors = FindFieldErrorsIndexes(listErrors, "LogIn_Password");
             for (int i = elementErrors.Count - 1; i >= 0; i--)
@@ -97,7 +116,7 @@ namespace Notbook {
         }
 
         /// <summary>
-        /// Sign In Input Validation
+        /// check username: required, already exists in detabase.
         /// </summary>
         private void TextBox_SignIn_Username_TextChanged(object sender, TextChangedEventArgs e) {
             List<int> elementErrors = FindFieldErrorsIndexes(listErrors, "SignIn_Username");
@@ -105,12 +124,15 @@ namespace Notbook {
                 listErrors.RemoveAt(elementErrors[i]);
             if (String.IsNullOrEmpty(textBox_SignIn_Username.Text) || String.IsNullOrWhiteSpace(textBox_SignIn_Username.Text))
                 listErrors.Add(new Error("SignIn_Username", ErrorMessage.required));
-            else if (database.FindUser(textBox_SignIn_Username.Text)) {
+            else if (database.FindUser(textBox_SignIn_Username.Text) > 0) {
                 listErrors.Add(new Error("SignIn_Username", ErrorMessage.usernameAlredyExists));
                 MessageBox.Show("alredy exists.");
             }
             ValidateForm();
         }
+        /// <summary>
+        /// check password: required.
+        /// </summary>
         private void PasswordBox_SignIn_Password_PasswordChanged(object sender, RoutedEventArgs e) {
             if (String.IsNullOrEmpty(passwordBox_SignIn_Password.Password) || String.IsNullOrWhiteSpace(passwordBox_SignIn_Password.Password))
                 listErrors.Add(new Error("SignIn_Password", ErrorMessage.required));
@@ -136,7 +158,8 @@ namespace Notbook {
             }
             ValidateForm();
         }
-
+        #endregion
+        #region Validation Functions
         /// <summary>
         /// Validate form and Enable/UnEnable submit button.
         /// Show invalid input fields.
@@ -259,5 +282,6 @@ namespace Notbook {
                 grid_SignIn_Confirmation_Error.Children.Clear();
             }
         }
+        #endregion
     }
 }
