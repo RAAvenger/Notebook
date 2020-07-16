@@ -41,37 +41,15 @@
                 </Style>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="38" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="0" />
                 <ColumnDefinition Width="38" />
                 <ColumnDefinition Width="38" />
                 <ColumnDefinition Width="38" />
             </Grid.ColumnDefinitions>
-            <Button Name="button_Minimize" ToolTip="Minimize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="2" Click="Button_Minimize_Click">
-                <Button.Style>
-                    <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#EEEEEE"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#DEDEDE"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button Name="button_Maximize" ToolTip="Maximize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="3" Click="Button_Maximize_Click">
-                <Button.Style>
-                    <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#EEEEEE"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#DEDEDE"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button Name="button_Close" ToolTip="Close" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="4" Click="Button_Close_Click">
+            <Button Name="button_Close" ToolTip="Close" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="6" Click="Button_Close_Click">
                 <Button.Style>
                     <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
                         <Setter Property="Background" Value="#EEEEEE"/>
@@ -83,19 +61,72 @@
                     </Style>
                 </Button.Style>
             </Button>
+            <Button Name="button_Maximize" ToolTip="Maximize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="5" Click="Button_Maximize_Click">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#EEEEEE"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#DEDEDE"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Name="button_Minimize" ToolTip="Minimize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="4" Click="Button_Minimize_Click">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#EEEEEE"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#DEDEDE"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <TextBox Name="textBox_Search" Text="Search" TextAlignment="Center" VerticalContentAlignment="Center" ToolTip="Search" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="2"/>
+            <TextBlock Text="Notebook" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
         </Grid>
         <Grid Name="MainBoard" Grid.Row="2" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50" />
                 <RowDefinition Height="5" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="25" />
             </Grid.RowDefinitions>
-            <Grid Name="Header" Grid.Row="0" ></Grid>
+            <Grid Name="Header" Grid.Row="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="سلام ... خوش آمدید" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2"/>
+                <TextBlock Text="Your Notes" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
+                <TextBlock Text="خروج" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0"/>
+            </Grid>
             <Rectangle Grid.Row="1" Fill="Red"/>
-            <ScrollViewer Name="NoteCards" Grid.Row="2">
-                
+            <ScrollViewer Grid.Row="2">
+                <WrapPanel Name="NoteCards" HorizontalAlignment="Center" >
+                </WrapPanel>
             </ScrollViewer>
         </Grid>
+        <Button Name="button_Add" Width="50" Height="50" Grid.Row="3" Grid.Column="1" Margin="0,-35,0,0">
+            <Button.Template>
+                <ControlTemplate>
+                    <Ellipse Width="50" Height="50">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Setter Property="Fill" Value="#FF008881"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Fill" Value="#FF00B9AF"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
     </Grid>
 </Window>

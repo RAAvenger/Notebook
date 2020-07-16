@@ -41,12 +41,51 @@
                 </Style>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="35" />
+                <ColumnDefinition Width="38" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="0" />
                 <ColumnDefinition Width="38" />
                 <ColumnDefinition Width="38" />
                 <ColumnDefinition Width="38" />
             </Grid.ColumnDefinitions>
+            <Button Name="button_Close" ToolTip="Close" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="6" Click="Button_Close_Click">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#EEEEEE"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E81123"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Name="button_Maximize" ToolTip="Maximize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="5" Click="Button_Maximize_Click">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#EEEEEE"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#DEDEDE"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Name="button_Minimize" ToolTip="Minimize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="4" Click="Button_Minimize_Click">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#EEEEEE"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#DEDEDE"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <TextBlock Text="Notebook" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
             <Button Name="button_Back" ToolTip="Back" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="0" Click="Button_Back_Click" >
                 <Button.Style>
                     <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
@@ -54,42 +93,6 @@
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" Value="#06CFC1"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button Name="button_Minimize" ToolTip="Minimize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="2" Click="Button_Minimize_Click">
-                <Button.Style>
-                    <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#EEEEEE"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#DEDEDE"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button Name="button_Maximize" ToolTip="Maximize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="3" Click="Button_Maximize_Click">
-                <Button.Style>
-                    <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#EEEEEE"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#DEDEDE"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button Name="button_Close" ToolTip="Close" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="4" Click="Button_Close_Click">
-                <Button.Style>
-                    <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#EEEEEE"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#E81123"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>

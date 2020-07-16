@@ -1,26 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
-namespace Notebook
-{
+namespace Notebook {
     /// <summary>
     /// Interaction logic for MainPage.xaml
     /// </summary>
-    public partial class MainPage : Window
-    {
-        public MainPage()
-        {
+    public partial class MainPage : Window {
+        private bool Flag = true;
+        public MainPage() {
             InitializeComponent();
         }
 
@@ -57,5 +44,21 @@ namespace Notebook
 
 
         #endregion titleBar Buttons
+
+        private void NoteCard_MouseUp(object sender, MouseButtonEventArgs e) {
+            NoteCard card = (NoteCard)sender;
+            if (card != null) {
+                if (card.IsSelected) {
+                    card.UnSelected();
+                }
+                else {
+                    card.Selected();
+                }
+            }
+        }
+
+        private void NoteCards_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) {
+
+        }
     }
 }

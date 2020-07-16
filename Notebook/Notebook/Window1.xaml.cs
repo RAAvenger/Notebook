@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using Notebook;
 
 namespace Notebook {
     /// <summary>
@@ -8,6 +9,7 @@ namespace Notebook {
     public partial class Window1 : Window {
         public Window1() {
             InitializeComponent();
+           
         }
 
         ///// <summary>

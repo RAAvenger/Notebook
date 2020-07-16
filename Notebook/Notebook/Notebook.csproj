@@ -62,7 +62,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NoteCard.cs" />
+    <Compile Include="NoteCard.xaml.cs">
+      <DependentUpon>NoteCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ShowAndEditNote.xaml.cs">
       <DependentUpon>ShowAndEditNote.xaml</DependentUpon>
     </Compile>
@@ -70,6 +72,10 @@
       <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
     <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NoteCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -88,10 +94,6 @@
     <Compile Include="LogIn_SignIn.xaml.cs">
       <DependentUpon>LogIn_SignIn.xaml</DependentUpon>
     </Compile>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Window1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -122,6 +124,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Themes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
