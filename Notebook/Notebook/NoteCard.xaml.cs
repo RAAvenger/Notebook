@@ -24,12 +24,17 @@ namespace Notebook {
             this.IsSelected = false;
             ShowTitleAndText();
         }
-        private string SmallText(string text) {
-            text.Replace("/n", " ");
-            text.Replace("/t", " ");
-            if (text.Length > 5 * 30) {
-                text.Remove(5 * 30);
-                text = text.Insert(5 * 30, "...");
+        private string SmallText(string text, bool isTitle) {
+            text = text.Replace("\r\n", " ");
+            text = text.Replace("\r\t", " ");
+            if (isTitle && text.Length > 30) {
+                text = text.Remove(27);
+                text = text.Insert(27, "...");
+
+            }
+            else if (!isTitle && text.Length > 6 * 30) {
+                text = text.Remove(6 * 30);
+                text = text.Insert(6 * 30, "...");
             }
             return text;
         }
@@ -56,7 +61,7 @@ namespace Notebook {
                 textBlock_ShortNote.SetValue(Grid.RowSpanProperty, 4);
             }
             else {
-                textBlock_Title.Text = this.noteTitle;
+                textBlock_Title.Text = SmallText(this.noteTitle, true);
             }
             if (this.noteText == "null") {
                 textBlock_ShortNote.Text = "خالی";
@@ -64,7 +69,7 @@ namespace Notebook {
                 textBlock_ShortNote.FontSize = 25;
             }
             else {
-                textBlock_ShortNote.Text = SmallText(this.noteText);
+                textBlock_ShortNote.Text = SmallText(this.noteText, false);
             }
         }
     }

@@ -27,6 +27,7 @@ namespace Notebook {
             this.database = database;
             this.userID = userID;
             this.newNoteFlage = true;
+            textBox_Title.Text = "تیتر را وارد کنید";
             this.noteTextChangedFlag = false;
             this.noteTitleChangedFlag = false;
             CheckNoteChanges();
@@ -36,7 +37,7 @@ namespace Notebook {
             this.homePage = homePage;
             this.database = database;
             this.noteID = noteID;
-            this.noteTitle = noteTitle == "null" ? null : noteTitle;
+            this.noteTitle = noteTitle == "null" ? "تیتر را وارد کنید" : noteTitle;
             this.noteText = noteText == "null" ? null : noteText;
             this.newNoteFlage = false;
             textBox_Title.Text = this.noteTitle;
@@ -97,7 +98,7 @@ namespace Notebook {
             }
             else {
                 if (this.newNoteFlage) {
-                    database.AddNewNote(this.userID, textBox_Title.Text.Trim(), GetTextFromRichTextBox(richTextBox_Note).Trim());
+                    database.AddNewNote(this.userID, textBox_Title.Text.Trim() == "تیتر را وارد کنید" ? "" : textBox_Title.Text.Trim(), GetTextFromRichTextBox(richTextBox_Note).Trim());
                     this.homePage.Refresh();
                     this.homePage.Show();
                     this.Close();
@@ -195,5 +196,22 @@ namespace Notebook {
 
         #endregion User Functions
 
+        private void TextBox_Title_GotFocus(object sender, RoutedEventArgs e) {
+            if (textBox_Title.Text.Trim() == "تیتر را وارد کنید") {
+                textBox_Title.Text = null;
+                this.noteTitleChangedFlag = false;
+                this.noteTextChangedFlag = false;
+                CheckNoteChanges();
+            }
+        }
+
+        private void TextBox_Title_LostFocus(object sender, RoutedEventArgs e) {
+            if (string.IsNullOrEmpty(textBox_Title.Text.Trim())) {
+                textBox_Title.Text = "تیتر را وارد کنید";
+                this.noteTitleChangedFlag = false;
+                this.noteTextChangedFlag = false;
+                CheckNoteChanges();
+            }
+        }
     }
 }

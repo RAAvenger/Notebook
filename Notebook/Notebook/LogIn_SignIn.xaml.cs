@@ -41,6 +41,21 @@ namespace Notebook {
 
         #region TitleBar
         /// <summary>
+        /// back to log in form. 
+        /// </summary>
+        private void Button_Back_Click(object sender, RoutedEventArgs e) {
+            this.isLogIn = false;
+            form_LogIn.Visibility = Visibility.Visible;
+            form_SignIn.Visibility = Visibility.Collapsed;
+            button_Back.Visibility = Visibility.Collapsed;
+            this.Title = "Log In";
+            button_LogIn_Submit.IsEnabled = false;
+            this.listErrors.Clear();
+            this.listErrors.Add(new Error("LogIn_Username", ErrorMessage.required));
+            this.listErrors.Add(new Error("LogIn_Password", ErrorMessage.required));
+
+        }
+        /// <summary>
         /// Close Window.
         /// </summary>
         private void Button_Close_Click(object sender, RoutedEventArgs e) {
@@ -71,7 +86,7 @@ namespace Notebook {
         }
         #endregion TitleBar
 
-        #region change page button OnClick function 
+        #region open sign in form and close log in form 
         /// <summary>
         /// show Sign In Form and Hide Log In Form
         /// </summary>
@@ -79,6 +94,7 @@ namespace Notebook {
             this.isLogIn = false;
             form_LogIn.Visibility = Visibility.Collapsed;
             form_SignIn.Visibility = Visibility.Visible;
+            button_Back.Visibility = Visibility.Visible;
             this.Title = "Sign In";
             button_SignIn_Submit.IsEnabled = false;
             this.listErrors.Clear();
@@ -86,8 +102,8 @@ namespace Notebook {
             this.listErrors.Add(new Error("SignIn_Password", ErrorMessage.required));
             this.listErrors.Add(new Error("SignIn_Confirmation", ErrorMessage.required));
         }
-        #endregion
-        
+        #endregion open sign in form and close log in form
+
         #region Submit Functions
         /// <summary>
         /// submit Log In Data. 

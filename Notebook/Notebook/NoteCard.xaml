@@ -8,10 +8,10 @@
              d:DesignHeight="180" d:DesignWidth="360">
     <UserControl.Resources>
         <Style TargetType="TextBlock" x:Key="style_TextBlock">
-            <Setter Property="Background" Value="#FFBFBFBF"/>
+            <Setter Property="Background" Value="#FFEDEDED"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" Value="True">
-                    <Setter Property="Background" Value="#FFEDEDED" />
+                    <Setter Property="Background" Value="White" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -24,42 +24,48 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Grid Name="grid_Contaner" Background="#FF000000">
+    <Grid Name="grid_Contaner" >
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFB3B3B3" Offset="0"/>
+                <GradientStop Color="#FF4B4444" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
-            <RowDefinition Height="5"/>
+            <RowDefinition Height="2"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="2"/>
             <RowDefinition Height="4*"/>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="5"/>
+            <RowDefinition Height="2"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="2"/>
             <ColumnDefinition Width="25"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="2"/>
         </Grid.ColumnDefinitions>
         <TextBlock Name="textBlock_Title" TextWrapping="Wrap" FontSize="16" TextAlignment="Center" Style="{StaticResource style_TextBlock}" Padding="2" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <Rectangle Name="line_betwinTitleAndText" Fill="#ff000000" Grid.Row="2" Grid.Column="1"/>
-        <TextBlock Name="textBlock_ShortNote" TextWrapping="Wrap" FontSize="20" TextAlignment="Center" Style="{StaticResource style_TextBlock}" Padding="3" Grid.Row="3" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <Button Name="button_Delete" Style="{StaticResource style_Button}" Width="30" Height="30" Grid.Row="4" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0">
+        <Rectangle Name="line_betwinTitleAndText" Fill="#ff000000" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <TextBlock Name="textBlock_ShortNote" TextWrapping="Wrap" FontSize="22" TextAlignment="Center" Style="{StaticResource style_TextBlock}" Padding="3" Grid.Row="3" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Button Name="button_Delete" Style="{StaticResource style_Button}" Width="30" Height="30" Grid.Row="4" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,-5,-5,0">
             <Button.Template>
                 <ControlTemplate>
-                    <Ellipse Width="30" Height="30">
-                        <Ellipse.Style>
-                            <Style TargetType="{x:Type Ellipse}">
-                                <Setter Property="Fill" Value="#B80543"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Fill" Value="#FF075D"/>
-                                    </Trigger>
-                                    <Trigger Property="IsEnabled" Value="False">
-                                        <Setter Property="Fill" Value="Gray"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Ellipse.Style>
-                    </Ellipse>
+                    <Grid>
+                        <Ellipse Width="30" Height="30">
+                            <Ellipse.Style>
+                                <Style TargetType="{x:Type Ellipse}">
+                                    <Setter Property="Fill" Value="#FF0D77"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" Value="True">
+                                            <Setter Property="Fill" Value="#C90A5E"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Ellipse.Style>
+                        </Ellipse>
+                        <Image Source="images\delete.png" Panel.ZIndex="2" Width="20"/>
+                    </Grid>
                 </ControlTemplate>
             </Button.Template>
         </Button>

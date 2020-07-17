@@ -53,7 +53,7 @@
             <Button Name="button_Close" ToolTip="Close" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="6" Click="Button_Close_Click">
                 <Button.Style>
                     <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#EEEEEE"/>
+                        <Setter Property="Background" Value="{x:Null}"/>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" Value="#E81123"/>
@@ -61,30 +61,39 @@
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
+                <StackPanel>
+                    <Image Source="Images\close.png" Width="20"/>
+                </StackPanel>
             </Button>
             <Button Name="button_Maximize" ToolTip="Maximize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="5" Click="Button_Maximize_Click">
                 <Button.Style>
                     <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#EEEEEE"/>
+                        <Setter Property="Background" Value="{x:Null}"/>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#DEDEDE"/>
+                                <Setter Property="Background" Value="#EEEEEE"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
+                <StackPanel>
+                    <Image Source="Images\maximize.png" Width="20"/>
+                </StackPanel>
             </Button>
             <Button Name="button_Minimize" ToolTip="Minimize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="4" Click="Button_Minimize_Click">
                 <Button.Style>
                     <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#EEEEEE"/>
+                        <Setter Property="Background" Value="{x:Null}"/>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#DEDEDE"/>
+                                <Setter Property="Background" Value="#EEEEEE"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
+                <StackPanel>
+                    <Image Source="Images\minimize.png" Width="20"/>
+                </StackPanel>
             </Button>
             <TextBlock Text="Notebook" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
             <Button Name="button_Back" ToolTip="Back" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="0" Click="Button_Back_Click" >
@@ -98,16 +107,46 @@
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
+                <StackPanel>
+                    <Image Source="Images\back.png" Width="20"/>
+                </StackPanel>
             </Button>
         </Grid>
         <Border Name="page_EditNote" Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="1" CornerRadius="20" >
             <Grid>
                 <Grid.Resources>
-                    <Style TargetType="{x:Type Button}" x:Key="formatTextStyle">
-                        <Setter Property="FontFamily" Value="Palatino Linotype"></Setter>
-                        <Setter Property="Width" Value="30"></Setter>
-                        <Setter Property="FontSize" Value ="14"></Setter>
+                    <Style TargetType="{x:Type Button}" x:Key="style_ToolBar_RichTextbox_Button_Text">
+                        <Setter Property="FontFamily" Value="Palatino Linotype"/>
+                        <Setter Property="Width" Value="25"/>
+                        <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"/>
+                        <Setter Property="FontSize" Value ="16"/>
+                        <Setter Property="Background" Value="#EDEDED"/>
+                        <Setter Property="Height" Value="25"/>
+                        <Setter Property="Margin" Value="5,0"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FCFCFC"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#ABABAB"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="{x:Type Button}" x:Key="style_ToolBar_RichTextbox_Button_Image">
                         <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"></Setter>
+                        <Setter Property="Background" Value="#EDEDED"/>
+                        <Setter Property="Width" Value="25"/>
+                        <Setter Property="Height" Value ="25"/>
+                        <Setter Property="Margin" Value="5,0"/>
+                        <Setter Property="Padding" Value="3"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FCFCFC"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#ABABAB"/>
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
                 </Grid.Resources>
                 <Grid.RowDefinitions>
@@ -123,48 +162,70 @@
                     <ColumnDefinition Width="50" />
                     <ColumnDefinition Width="10" />
                 </Grid.ColumnDefinitions>
-                <TextBox Name="textBox_Title" FontSize="20" TextAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Row="0" Grid.ColumnSpan="5" Margin="9" TextChanged="TextBox_Title_TextChanged"/>
+                <TextBox Name="textBox_Title" MaxLength="50" FontSize="20" TextAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" 
+                         BorderBrush="{x:Null}" Grid.Row="0" Grid.ColumnSpan="5" Margin="9" 
+                         TextChanged="TextBox_Title_TextChanged" GotFocus="TextBox_Title_GotFocus" LostFocus="TextBox_Title_LostFocus"/>
                 <Rectangle Fill="#FF008881" Grid.Row="1" Grid.Column="2" />
                 <DockPanel  Grid.Row="2" Grid.ColumnSpan="5"  Margin="5">
-                    <ToolBar Name="mainToolBar" Height="30" DockPanel.Dock="Top" >
-                        <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut" MinHeight="20" MinWidth="50">
-                            <TextBlock>Cut</TextBlock>
+                    <ToolBar Name="ToolBar_RichTextbox" Background="#EDEDED" Height="40" DockPanel.Dock="Top" >
+                        <Button Command="ApplicationCommands.Cut" ToolTip="Cut" Style="{StaticResource style_ToolBar_RichTextbox_Button_Image}">
+                            <StackPanel>
+                                <Image Source="images/textCut.png"/>
+                            </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy" MinHeight="20" MinWidth="50">
-                            <TextBlock>Copy</TextBlock>
+                        <Button Command="ApplicationCommands.Copy" ToolTip="Copy" Style="{StaticResource style_ToolBar_RichTextbox_Button_Image}">
+                            <StackPanel>
+                                <Image Source="images/textCopy.png"/>
+                            </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Paste" ToolTip="Paste" MinHeight="20" MinWidth="50">
-                            <TextBlock>Paste</TextBlock>
+                        <Button Command="ApplicationCommands.Paste" ToolTip="Paste" Style="{StaticResource style_ToolBar_RichTextbox_Button_Image}">
+                            <StackPanel>
+                                <Image Source="images/textPaste.png"/>
+                            </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo" MinHeight="20" MinWidth="50">
-                            <TextBlock>Undo</TextBlock>
+                        <Button Command="ApplicationCommands.Undo" ToolTip="Undo" Style="{StaticResource style_ToolBar_RichTextbox_Button_Image}">
+                            <StackPanel>
+                                <Image Source="images/textUndo.png"/>
+                            </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo" MinHeight="20" MinWidth="50">
-                            <TextBlock>Redo</TextBlock>
+                        <Button Command="ApplicationCommands.Redo" ToolTip="Redo" Style="{StaticResource style_ToolBar_RichTextbox_Button_Image}">
+                            <StackPanel>
+                                <Image Source="images/textRedo.png"/>
+                            </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold" MinHeight="20" MinWidth="20">
-                            <TextBlock FontWeight="Bold" Width="auto">B</TextBlock>
+                        <Button Command="EditingCommands.ToggleBold" ToolTip="Bold" Style="{StaticResource style_ToolBar_RichTextbox_Button_Text}">
+                            <TextBlock FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center">B</TextBlock>
                         </Button>
-                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic" MinHeight="20" MinWidth="20">
-                            <TextBlock FontStyle="Italic" FontWeight="Bold">I</TextBlock>
+                        <Button Command="EditingCommands.ToggleItalic" ToolTip="Italic" Style="{StaticResource style_ToolBar_RichTextbox_Button_Text}">
+                            <TextBlock FontStyle="Italic" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center">I</TextBlock>
                         </Button>
-                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline" MinHeight="20" MinWidth="20">
-                            <TextBlock TextDecorations="Underline" FontWeight="Bold">U</TextBlock>
+                        <Button Command="EditingCommands.ToggleUnderline" ToolTip="Underline" Style="{StaticResource style_ToolBar_RichTextbox_Button_Text}">
+                            <TextBlock TextDecorations="Underline" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center">U</TextBlock>
                         </Button>
-                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font" MinHeight="20" MinWidth="120">
-                            <TextBlock>IncreaseFontSize</TextBlock>
+                        <Button Command="EditingCommands.IncreaseFontSize" ToolTip="Increase Font Size" Style="{StaticResource style_ToolBar_RichTextbox_Button_Image}">
+                            <StackPanel>
+                                <Image Source="images/textIncreaseFont.png"/>
+                            </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font" MinHeight="20" MinWidth="120">
-                            <TextBlock>DecreaseFontSize</TextBlock>
+                        <Button Command="EditingCommands.DecreaseFontSize" ToolTip="Decrease Font Size" Style="{StaticResource style_ToolBar_RichTextbox_Button_Image}">
+                            <StackPanel>
+                                <Image Source="images/textDecreaseFont.png"/>
+                            </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align Left" MinHeight="20" MinWidth="80">
-                            <TextBlock>AlignLeft</TextBlock>
+                        <Button Command="EditingCommands.AlignLeft" ToolTip="Align Left" Style="{StaticResource style_ToolBar_RichTextbox_Button_Image}">
+                            <StackPanel>
+                                <Image Source="images/textAlignLeft.png"/>
+                            </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align Center" MinHeight="20" MinWidth="80">
-                            <TextBlock>AlignCenter</TextBlock>
+                        <Button Command="EditingCommands.AlignCenter" ToolTip="Align Center" Style="{StaticResource style_ToolBar_RichTextbox_Button_Image}">
+                            <StackPanel>
+                                <Image Source="images/textAlignCenter.png"/>
+                            </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.AlignRight" ToolTip="Align Right" MinHeight="20" MinWidth="80">
-                            <TextBlock>AlignRight</TextBlock>
+                        <Button Command="EditingCommands.AlignRight" ToolTip="Align Right" Style="{StaticResource style_ToolBar_RichTextbox_Button_Image}">
+                            <StackPanel>
+                                <Image Source="images/textAlignRight.png"/>
+                            </StackPanel>
                         </Button>
                     </ToolBar>
                     <RichTextBox Name="richTextBox_Note" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="RichTextBox_Edit_Note_TextChanged">
@@ -178,42 +239,48 @@
                 <Button Name="button_OK" Width="50" Height="50" Grid.Row="3" Grid.Column="3" Margin="0,0,0,-25" Click="Button_OK_Click" >
                     <Button.Template>
                         <ControlTemplate>
-                            <Ellipse Width="50" Height="50">
-                                <Ellipse.Style>
-                                    <Style TargetType="{x:Type Ellipse}">
-                                        <Setter Property="Fill" Value="#33B813"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Fill" Value="#46FF1A"/>
-                                            </Trigger>
-                                            <Trigger Property="IsEnabled" Value="False">
-                                                <Setter Property="Fill" Value="Gray"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Ellipse.Style>
-                            </Ellipse>
+                            <Grid>
+                                <Ellipse Width="50" Height="50" Panel.ZIndex="0">
+                                    <Ellipse.Style>
+                                        <Style TargetType="{x:Type Ellipse}">
+                                            <Setter Property="Fill" Value="#33B813"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" Value="True">
+                                                    <Setter Property="Fill" Value="#46FF1A"/>
+                                                </DataTrigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Fill" Value="Gray"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Ellipse.Style>
+                                </Ellipse>
+                                <Image Source="images\ok.png" Panel.ZIndex="2" Width="30"/>
+                            </Grid>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
                 <Button Name="button_Cancel" Width="50" Height="50" Grid.Row="3" Grid.Column="1" Margin="0,0,0,-25" Click="Button_Cancel_Click" >
                     <Button.Template>
                         <ControlTemplate>
-                            <Ellipse Width="50" Height="50">
-                                <Ellipse.Style>
-                                    <Style TargetType="{x:Type Ellipse}">
-                                        <Setter Property="Fill" Value="#B80543"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Fill" Value="#FF075D"/>
-                                            </Trigger>
-                                            <Trigger Property="IsEnabled" Value="False">
-                                                <Setter Property="Fill" Value="Gray"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Ellipse.Style>
-                            </Ellipse>
+                            <Grid>
+                                <Ellipse Width="50" Height="50">
+                                    <Ellipse.Style>
+                                        <Style TargetType="{x:Type Ellipse}">
+                                            <Setter Property="Fill" Value="#B80543"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" Value="True">
+                                                    <Setter Property="Fill" Value="#FF075D"/>
+                                                </DataTrigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Fill" Value="Gray"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Ellipse.Style>
+                                </Ellipse>
+                                <Image Source="images\close.png" Panel.ZIndex="2" Width="30"/>
+                            </Grid>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>

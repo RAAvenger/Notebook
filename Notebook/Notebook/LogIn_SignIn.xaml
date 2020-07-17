@@ -55,7 +55,7 @@
             <Button Name="button_Close" ToolTip="Close" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="6" Click="Button_Close_Click">
                 <Button.Style>
                     <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#EEEEEE"/>
+                        <Setter Property="Background" Value="{x:Null}"/>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" Value="#E81123"/>
@@ -63,35 +63,59 @@
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
+                <StackPanel>
+                    <Image Source="Images\close.png" Width="20"/>
+                </StackPanel>
             </Button>
             <Button Name="button_Maximize" ToolTip="Maximize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="5" Click="Button_Maximize_Click">
                 <Button.Style>
                     <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#EEEEEE"/>
+                        <Setter Property="Background" Value="{x:Null}"/>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#DEDEDE"/>
+                                <Setter Property="Background" Value="#EEEEEE"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
+                <StackPanel>
+                    <Image Source="Images\maximize.png" Width="20"/>
+                </StackPanel>
             </Button>
             <Button Name="button_Minimize" ToolTip="Minimize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="4" Click="Button_Minimize_Click">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="{x:Null}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#EEEEEE"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <StackPanel>
+                    <Image Source="Images\minimize.png" Width="20"/>
+                </StackPanel>
+            </Button>
+            <TextBlock Text="Notebook" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
+            <Button Name="button_Back" ToolTip="Back" Visibility="Hidden" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="0" Click="Button_Back_Click" >
                 <Button.Style>
                     <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
                         <Setter Property="Background" Value="#EEEEEE"/>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#DEDEDE"/>
+                                <Setter Property="Background" Value="#06CFC1"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
+                <StackPanel>
+                    <Image Source="Images\back.png" Width="20"/>
+                </StackPanel>
             </Button>
-            <TextBlock Text="Notebook" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
         </Grid>
         <Border Name="form_LogIn" Visibility="Visible" BorderBrush="Black" BorderThickness="1" CornerRadius="20" Grid.Column="1" Grid.Row="2" Margin="100, 100, 100, 100">
-            <Grid Height="241" Margin="0.2,0.2,-0.4,0" VerticalAlignment="Top" >
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" MinHeight="50"/>
                     <RowDefinition Height="Auto"/>
@@ -153,21 +177,24 @@
                 <Button Name="button_LogIn_Submit" Grid.Row="6" Grid.ColumnSpan="5" Margin="0,25,0,-25" Click="Button_LogIn_Submit_Click">
                     <Button.Template>
                         <ControlTemplate>
-                            <Ellipse Width="50" Height="50">
-                                <Ellipse.Style>
-                                    <Style TargetType="{x:Type Ellipse}">
-                                        <Setter Property="Fill" Value="#FF008881"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Fill" Value="#FF00B9AF"/>
-                                            </Trigger>
-                                            <Trigger Property="IsEnabled" Value="False">
-                                                <Setter Property="Fill" Value="Gray"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Ellipse.Style>
-                            </Ellipse>
+                            <Grid>
+                                <Ellipse Width="50" Height="50">
+                                    <Ellipse.Style>
+                                        <Style TargetType="{x:Type Ellipse}">
+                                            <Setter Property="Fill" Value="#FF008881"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" Value="True">
+                                                    <Setter Property="Fill" Value="#FF00B9AF"/>
+                                                </DataTrigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Fill" Value="Gray"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Ellipse.Style>
+                                </Ellipse>
+                                <Image Source="images\ok.png" Panel.ZIndex="2" Width="30"/>
+                            </Grid>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
@@ -230,21 +257,24 @@
                 <Button Name="button_SignIn_Submit" Grid.Row="6" Grid.ColumnSpan="5" Margin="0,25,0,-25" Click="Button_SignIn_Submit_Click">
                     <Button.Template>
                         <ControlTemplate>
-                            <Ellipse Width="50" Height="50">
-                                <Ellipse.Style>
-                                    <Style TargetType="{x:Type Ellipse}">
-                                        <Setter Property="Fill" Value="#FF008881"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Fill" Value="#FF00B9AF"/>
-                                            </Trigger>
-                                            <Trigger Property="IsEnabled" Value="False">
-                                                <Setter Property="Fill" Value="Gray"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Ellipse.Style>
-                            </Ellipse>
+                            <Grid>
+                                <Ellipse Width="50" Height="50">
+                                    <Ellipse.Style>
+                                        <Style TargetType="{x:Type Ellipse}">
+                                            <Setter Property="Fill" Value="#FF008881"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" Value="True">
+                                                    <Setter Property="Fill" Value="#FF00B9AF"/>
+                                                </DataTrigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Fill" Value="Gray"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Ellipse.Style>
+                                </Ellipse>
+                                <Image Source="images\ok.png" Panel.ZIndex="2" Width="30"/>
+                            </Grid>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
