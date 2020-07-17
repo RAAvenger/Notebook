@@ -6,13 +6,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:Notebook"
     Title="Log In" 
-    MinWidth="1180" 
-    MinHeight="620" 
+    WindowStyle="None"
     Background="White"
-    WindowStartupLocation="CenterScreen" KeyUp="Window_KeyUp"
+    WindowStartupLocation="CenterScreen"
+    MinWidth="1180" 
+    MinHeight="655" 
+    KeyUp="Window_KeyUp"
 >
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="32"/>
+    </WindowChrome.WindowChrome>
+
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
             <RowDefinition Height="1*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="3*" />
@@ -22,7 +29,68 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Border Name="form_LogIn" Visibility="Visible" BorderBrush="Black" BorderThickness="1" CornerRadius="20" Grid.Column="1" Grid.Row="1" Margin="100, 100, 100, 100">
+        <Grid Name="TitleBar" Background="{x:Null}" Grid.Row="0" Grid.ColumnSpan="5">
+            <Grid.Resources>
+                <Style TargetType="{x:Type Button}" x:Key="titleBarButton">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{x:Null}" BorderThickness="0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="38" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="0" />
+                <ColumnDefinition Width="38" />
+                <ColumnDefinition Width="38" />
+                <ColumnDefinition Width="38" />
+            </Grid.ColumnDefinitions>
+            <Button Name="button_Close" ToolTip="Close" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="6" Click="Button_Close_Click">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#EEEEEE"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E81123"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Name="button_Maximize" ToolTip="Maximize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="5" Click="Button_Maximize_Click">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#EEEEEE"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#DEDEDE"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Name="button_Minimize" ToolTip="Minimize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="4" Click="Button_Minimize_Click">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource titleBarButton}" TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#EEEEEE"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#DEDEDE"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <TextBlock Text="Notebook" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
+        </Grid>
+        <Border Name="form_LogIn" Visibility="Visible" BorderBrush="Black" BorderThickness="1" CornerRadius="20" Grid.Column="1" Grid.Row="2" Margin="100, 100, 100, 100">
             <Grid Height="241" Margin="0.2,0.2,-0.4,0" VerticalAlignment="Top" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" MinHeight="50"/>
@@ -105,7 +173,7 @@
                 </Button>
             </Grid>
         </Border>
-        <Border Name="form_SignIn" Visibility="Collapsed" BorderBrush="Black" BorderThickness="1" CornerRadius="20" Grid.Column="1" Grid.Row="1" Margin="100, 100, 100, 100">
+        <Border Name="form_SignIn" Visibility="Collapsed" BorderBrush="Black" BorderThickness="1" CornerRadius="20" Grid.Column="1" Grid.Row="2" Margin="100, 100, 100, 100">
             <Grid >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" MinHeight="50"/>

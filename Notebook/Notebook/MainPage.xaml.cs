@@ -24,7 +24,7 @@ namespace Notebook {
         }
 
         /// <summary>
-        /// set username and password.
+        /// set username and userID.
         /// </summary>
         public void SetUserIdAndUsername(int userID, string username) {
             this.userID = userID;
@@ -32,9 +32,12 @@ namespace Notebook {
             textBlock_Welcome.Text = " خوش آمدید " + username + " سلام ";
         }
 
+        /// <summary>
+        /// clear board and fill it again( get data from database ).
+        /// </summary>
         public void Refresh() {
             DataSet t = database.GetUserNotes(this.userID);
-            NoteCards.Children.Clear();
+            wrapPanel_NoteCards.Children.Clear();
             foreach (DataRow pRow in t.Tables[0].Rows) {
                 NoteCard noteCard = new NoteCard(Int32.Parse(pRow.ItemArray.GetValue(0).ToString()),
                     pRow.ItemArray.GetValue(2).ToString(),
@@ -44,10 +47,16 @@ namespace Notebook {
                 noteCard.Height = 200;
                 noteCard.MouseUp += NoteCard_MouseUp;
                 noteCard.button_Delete.Click += Button_Delete_Click;
-                NoteCards.Children.Add(noteCard);
+                wrapPanel_NoteCards.Children.Add(noteCard);
             }
         }
 
+        /// <summary>
+        /// delete Note function for delete button of cards.
+        /// </summary>
+        /// <param name="sender">
+        /// the card's delete button.
+        /// </param>
         private void Button_Delete_Click(object sender, RoutedEventArgs e) {
             Button senderButton = (Button)sender;
             Grid parentGrid = (Grid)senderButton.Parent;
@@ -55,6 +64,7 @@ namespace Notebook {
             this.database.DeleteNote(card.noteID);
             this.Refresh();
         }
+        
         #region titleBar Buttons
         /// <summary>
         /// Close Window.
@@ -89,6 +99,9 @@ namespace Notebook {
 
         #endregion titleBar Buttons
 
+        /// <summary>
+        /// open card on mouse up.
+        /// </summary>
         private void NoteCard_MouseUp(object sender, MouseButtonEventArgs e) {
             NoteCard card = (NoteCard)sender;
             if (card != null) {
@@ -98,11 +111,22 @@ namespace Notebook {
             }
         }
 
+        /// <summary>
+        /// open a empty show and edit note page to add new note. 
+        /// </summary>
         private void Button_Add_Click(object sender, RoutedEventArgs e) {
             page_Note = new ShowAndEditNote(this, this.database, userID);
             page_Note.Show();
             this.Hide();
         }
 
+        private void Button_LogOut_Click(object sender, RoutedEventArgs e) {
+            this.userID = 0;
+            this.username = null;
+            wrapPanel_NoteCards.Children.Clear();
+            Page_logIn = new LogIn_SignIn(this, this.database);
+            Page_logIn.Show();
+            this.Hide();
+        }
     }
 }

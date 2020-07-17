@@ -6,12 +6,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:Notebook"
     mc:Ignorable="d"
+    Title="Home" 
     WindowStyle="None"
-    Title="Edit_Note" 
-    MinWidth="1180" 
-    MinHeight="655" 
     Background="White"
     WindowStartupLocation="CenterScreen"
+    MinWidth="1180" 
+    MinHeight="655" 
 >
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="32"/>
@@ -104,11 +104,28 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="textBlock_Welcome" Text="سلام ... خوش آمدید" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2"/>
                 <TextBlock Text="Your Notes" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
-                <TextBlock Text="خروج" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0"/>
+                <Button Name="button_LogOut"  Grid.ColumnSpan="1" Click="Button_LogOut_Click">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <TextBlock Text="خروج" FontSize="15" HorizontalAlignment="Center" Width="Auto" Height="30">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Foreground" Value="#8c0a38" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="#ff166b" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </Grid>
             <Rectangle Grid.Row="1" Fill="Red"/>
             <ScrollViewer Grid.Row="2">
-                <WrapPanel Name="NoteCards" HorizontalAlignment="Center" >
+                <WrapPanel Name="wrapPanel_NoteCards" HorizontalAlignment="Center" >
                 </WrapPanel>
             </ScrollViewer>
         </Grid>

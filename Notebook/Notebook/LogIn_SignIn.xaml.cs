@@ -6,13 +6,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 namespace Notebook {
     public partial class LogIn_SignIn : Window {
-        #region variables.
+        #region variables
         private bool isLogIn;
         private List<Error> listErrors;
         private Database database;
         private MainPage homePage;
-        private MainPage mainPage;
-        #endregion variables.
+        #endregion variables
+
         #region Error data structur
         /// <summary>
         /// struct for Errors.
@@ -39,6 +39,38 @@ namespace Notebook {
             button_LogIn_Submit.IsEnabled = false;
         }
 
+        #region TitleBar
+        /// <summary>
+        /// Close Window.
+        /// </summary>
+        private void Button_Close_Click(object sender, RoutedEventArgs e) {
+            Application.Current.Shutdown();
+        }
+        /// <summary>
+        /// call AdjustWindowSize() to change window size.
+        /// </summary>
+        private void Button_Maximize_Click(object sender, RoutedEventArgs e) {
+            AdjustWindowSize();
+        }
+        /// <summary>
+        /// Minimize Window.
+        /// </summary>
+        private void Button_Minimize_Click(object sender, RoutedEventArgs e) {
+            this.WindowState = WindowState.Minimized;
+        }
+        /// <summary>
+        /// Change window size from original size to maximum size and vice versa.
+        /// </summary>
+        private void AdjustWindowSize() {
+            if (this.WindowState == WindowState.Maximized) {
+                this.WindowState = WindowState.Normal;
+            }
+            else {
+                this.WindowState = WindowState.Maximized;
+            }
+        }
+        #endregion TitleBar
+
         #region change page button OnClick function 
         /// <summary>
         /// show Sign In Form and Hide Log In Form
@@ -55,7 +87,8 @@ namespace Notebook {
             this.listErrors.Add(new Error("SignIn_Confirmation", ErrorMessage.required));
         }
         #endregion
-        #region Submit Buttons OnClick Function
+        
+        #region Submit Functions
         /// <summary>
         /// submit Log In Data. 
         /// </summary>
@@ -74,7 +107,6 @@ namespace Notebook {
                 MessageBox.Show("no");
             }
         }
-
         /// <summary>
         /// submit Sign In Data
         /// </summary>
@@ -91,7 +123,19 @@ namespace Notebook {
                 MessageBox.Show("Error");
 
         }
-        #endregion
+        /// <summary>
+        /// call logIn or signIn submit functions when user press "Enter".
+        /// </summary>
+        private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e) {
+            if (e.Key == Key.Enter) {
+                if (isLogIn && button_LogIn_Submit.IsEnabled)
+                    Button_LogIn_Submit_Click(null, null);
+                else if (!isLogIn && button_SignIn_Submit.IsEnabled)
+                    Button_SignIn_Submit_Click(null, null);
+            }
+        }
+        #endregion Submit Function
+
         #region User Inputs TextChanged Functions
         /// <summary>
         /// check username: required.
@@ -163,6 +207,7 @@ namespace Notebook {
             ValidateForm();
         }
         #endregion
+
         #region Validation Functions
         /// <summary>
         /// Validate form and Enable/UnEnable submit button.
@@ -288,13 +333,5 @@ namespace Notebook {
         }
         #endregion
 
-        private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e) {
-            if (e.Key == Key.Enter) {
-                if (isLogIn && button_LogIn_Submit.IsEnabled)
-                    Button_LogIn_Submit_Click(null, null);
-                else if (!isLogIn && button_SignIn_Submit.IsEnabled)
-                    Button_SignIn_Submit_Click(null, null);
-            }
-        }
     }
 }

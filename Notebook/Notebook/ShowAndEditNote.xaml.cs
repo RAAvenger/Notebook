@@ -8,6 +8,7 @@ namespace Notebook {
     /// Interaction logic for Edit_Note.xaml
     /// </summary>
     public partial class ShowAndEditNote : Window {
+
         #region variables
         private bool newNoteFlage = false;
         private bool noteTitleChangedFlag;
@@ -19,6 +20,7 @@ namespace Notebook {
         private Database database;
         private MainPage homePage;
         #endregion variables
+
         public ShowAndEditNote(MainPage homePage, Database database, int userID) {
             InitializeComponent();
             this.homePage = homePage;
@@ -34,8 +36,8 @@ namespace Notebook {
             this.homePage = homePage;
             this.database = database;
             this.noteID = noteID;
-            this.noteTitle = noteTitle;
-            this.noteText = noteText;
+            this.noteTitle = noteTitle == "null" ? null : noteTitle;
+            this.noteText = noteText == "null" ? null : noteText;
             this.newNoteFlage = false;
             textBox_Title.Text = this.noteTitle;
             richTextBox_Note.Document.Blocks.Clear();
@@ -43,10 +45,6 @@ namespace Notebook {
             this.noteTextChangedFlag = false;
             this.noteTitleChangedFlag = false;
             CheckNoteChanges();
-        }
-        public void SetParent(MainPage homePage, Database database) {
-            this.homePage = homePage;
-            this.database = database;
         }
 
         #region titleBar Buttons
@@ -88,24 +86,30 @@ namespace Notebook {
             }
         }
         #endregion titleBar Buttons
-        #region Page Buttons
+
+        #region save and discard Functions
         /// <summary>
         /// save changes.
         /// </summary>
         private void Button_OK_Click(object sender, RoutedEventArgs e) {
-            if (this.newNoteFlage) {
-                database.AddNewNote(this.userID, textBox_Title.Text.Trim(), GetTextFromRichTextBox(richTextBox_Note).Trim());
-                this.homePage.Refresh();
-                this.homePage.Show();
-                this.Close();
+            if (string.IsNullOrEmpty(textBox_Title.Text.Trim()) && string.IsNullOrEmpty(GetTextFromRichTextBox(richTextBox_Note).Trim())) {
+                MessageBox.Show("Note is Empty");
             }
             else {
-                this.noteTextChangedFlag = false;
-                this.noteTitleChangedFlag = false;
-                this.noteTitle = textBox_Title.Text.Trim();
-                this.noteText = GetTextFromRichTextBox(richTextBox_Note).Trim();
-                this.database.EditNote(this.noteID, this.noteTitle, this.noteText);
-                CheckNoteChanges();
+                if (this.newNoteFlage) {
+                    database.AddNewNote(this.userID, textBox_Title.Text.Trim(), GetTextFromRichTextBox(richTextBox_Note).Trim());
+                    this.homePage.Refresh();
+                    this.homePage.Show();
+                    this.Close();
+                }
+                else {
+                    this.noteTextChangedFlag = false;
+                    this.noteTitleChangedFlag = false;
+                    this.noteTitle = textBox_Title.Text.Trim();
+                    this.noteText = GetTextFromRichTextBox(richTextBox_Note).Trim();
+                    this.database.EditNote(this.noteID, this.noteTitle, this.noteText);
+                    CheckNoteChanges();
+                }
             }
         }
         /// <summary>
@@ -125,10 +129,11 @@ namespace Notebook {
                 CheckNoteChanges();
             }
         }
-        #endregion Page Buttons
+        #endregion save and discard Functions
+
         #region TextChanged Functions
         private void TextBox_Title_TextChanged(object sender, TextChangedEventArgs e) {
-            if (String.Compare(this.noteTitle, textBox_Title.Text) != 0) {
+            if (String.Compare(this.noteTitle, textBox_Title.Text.Trim()) != 0) {
                 this.noteTitleChangedFlag = true;
             }
             else {
@@ -138,7 +143,7 @@ namespace Notebook {
         }
 
         private void RichTextBox_Edit_Note_TextChanged(object sender, TextChangedEventArgs e) {
-            if (String.Compare(this.noteText, GetTextFromRichTextBox(richTextBox_Note)) != 0) {
+            if (String.Compare(this.noteText, GetTextFromRichTextBox(richTextBox_Note).Trim()) != 0) {
                 this.noteTextChangedFlag = true;
             }
             else {
@@ -147,6 +152,7 @@ namespace Notebook {
             CheckNoteChanges();
         }
         #endregion TextChanged Functions
+
         #region User Functions
         /// <summary>
         /// get text from rich text box.
@@ -165,17 +171,23 @@ namespace Notebook {
 
         private void CheckNoteChanges() {
             try {
-                if (!this.noteTitleChangedFlag && !noteTextChangedFlag) {
+                if (string.IsNullOrEmpty(textBox_Title.Text.Trim()) && string.IsNullOrEmpty(GetTextFromRichTextBox(richTextBox_Note).Trim())) {
                     button_OK.IsEnabled = false;
                     button_OK.Visibility = Visibility.Hidden;
                     button_Cancel.IsEnabled = false;
                     button_Cancel.Visibility = Visibility.Hidden;
                 }
-                else {
+                else if (this.noteTitleChangedFlag || noteTextChangedFlag) {
                     button_OK.IsEnabled = true;
                     button_OK.Visibility = Visibility.Visible;
                     button_Cancel.IsEnabled = true;
                     button_Cancel.Visibility = Visibility.Visible;
+                }
+                else {
+                    button_OK.IsEnabled = false;
+                    button_OK.Visibility = Visibility.Hidden;
+                    button_Cancel.IsEnabled = false;
+                    button_Cancel.Visibility = Visibility.Hidden;
                 }
             }
             catch (Exception e) { }

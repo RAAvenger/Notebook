@@ -136,8 +136,8 @@ namespace Notebook {
         /// Add new Note to database.
         /// </summary>
         /// <returns>
-        /// 1 -> ssuccess.
         /// -1 -> error.
+        /// 1 -> success.
         /// </returns>
         public int AddNewNote(int writerID, string noteTitle, string noteText) {
             try {
@@ -188,7 +188,7 @@ namespace Notebook {
         /// </summary>
         /// <returns>
         /// -1 -> error
-        /// 1 -> ssuccess
+        /// 1 -> success
         /// </returns>
         public int EditNote(int noteID, string noteTitle, string noteText) {
             try {

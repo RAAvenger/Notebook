@@ -5,12 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    WindowStyle="None"
     Title="Edit_Note" 
-    MinWidth="1180" 
-    MinHeight="655" 
+    WindowStyle="None"
     Background="White"
     WindowStartupLocation="CenterScreen"
+    MinWidth="1180" 
+    MinHeight="655" 
 >
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="32"/>
