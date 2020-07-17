@@ -9,7 +9,7 @@
     MinWidth="1180" 
     MinHeight="620" 
     Background="White"
-    WindowStartupLocation="CenterScreen"
+    WindowStartupLocation="CenterScreen" KeyUp="Window_KeyUp"
 >
     <Grid>
         <Grid.RowDefinitions>

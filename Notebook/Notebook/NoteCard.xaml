@@ -15,6 +15,14 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="Button" x:Key="style_Button">
+            <Setter Property="Visibility" Value="Hidden"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" Value="True">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <Grid Name="grid_Contaner" Background="#FF000000">
         <Grid.RowDefinitions>
@@ -22,15 +30,38 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="2"/>
             <RowDefinition Height="4*"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="5"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="25"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="5"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Name="textBlock_Title" TextWrapping="Wrap" FontSize="16" TextAlignment="Center" Style="{StaticResource style_TextBlock}" Padding="2" Grid.Row="1" Grid.Column="1"/>
+        <TextBlock Name="textBlock_Title" TextWrapping="Wrap" FontSize="16" TextAlignment="Center" Style="{StaticResource style_TextBlock}" Padding="2" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
         <Rectangle Fill="#ff000000" Grid.Row="2" Grid.Column="1"/>
-        <TextBlock Name="textBlock_ShortNote" TextWrapping="Wrap" FontSize="15" TextAlignment="Right" Style="{StaticResource style_TextBlock}" Padding="3" Grid.Row="3" Grid.Column="1"/>
+        <TextBlock Name="textBlock_ShortNote" TextWrapping="Wrap" FontSize="15" TextAlignment="Right" Style="{StaticResource style_TextBlock}" Padding="3" Grid.Row="3" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Button Name="button_Delete" Style="{StaticResource style_Button}" Width="30" Height="30" Grid.Row="4" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0">
+            <Button.Template>
+                <ControlTemplate>
+                    <Ellipse Width="30" Height="30">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Setter Property="Fill" Value="#B80543"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Fill" Value="#FF075D"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Fill" Value="Gray"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
     </Grid>
 </UserControl>

@@ -54,6 +54,8 @@ namespace Notebook {
         /// back to prev Page. 
         /// </summary>
         private void Button_Back_Click(object sender, RoutedEventArgs e) {
+            this.homePage.Refresh();
+            this.homePage.Show();
             this.Close();
         }
         /// <summary>
@@ -93,7 +95,7 @@ namespace Notebook {
         private void Button_OK_Click(object sender, RoutedEventArgs e) {
             if (this.newNoteFlage) {
                 database.AddNewNote(this.userID, textBox_Title.Text.Trim(), GetTextFromRichTextBox(richTextBox_Note).Trim());
-                homePage.Refresh();
+                this.homePage.Refresh();
                 this.homePage.Show();
                 this.Close();
             }
@@ -102,6 +104,7 @@ namespace Notebook {
                 this.noteTitleChangedFlag = false;
                 this.noteTitle = textBox_Title.Text.Trim();
                 this.noteText = GetTextFromRichTextBox(richTextBox_Note).Trim();
+                this.database.EditNote(this.noteID, this.noteTitle, this.noteText);
                 CheckNoteChanges();
             }
         }

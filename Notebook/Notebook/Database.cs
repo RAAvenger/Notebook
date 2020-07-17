@@ -33,7 +33,7 @@ namespace Notebook {
             this.connection.Close();
         }
         #endregion Connection
-
+        #region User Functions
         /// <summary>
         /// add new user to database.
         /// </summary>
@@ -130,7 +130,8 @@ namespace Notebook {
                 return -1;
             }
         }
-
+        #endregion User Functions
+        #region Note Functions
         /// <summary>
         /// Add new Note to database.
         /// </summary>
@@ -138,8 +139,10 @@ namespace Notebook {
         /// 1 -> ssuccess.
         /// -1 -> error.
         /// </returns>
-        public int AddNewNote(int writerID, string title, string text) {
+        public int AddNewNote(int writerID, string noteTitle, string noteText) {
             try {
+                noteTitle = CheckUserInput(noteTitle);
+                noteText = CheckUserInput(noteText);
                 Connect();
                 SqlCommand command = new SqlCommand();
                 command.Connection = this.connection;
@@ -149,15 +152,9 @@ namespace Notebook {
                 param = command.Parameters.Add("@writerID", SqlDbType.Int);
                 param.Value = writerID;
                 param = command.Parameters.Add("@title", SqlDbType.NVarChar, 50);
-                if (!String.IsNullOrEmpty(title))
-                    param.Value = title;
-                else
-                    param.Value = "null";
+                param.Value = noteTitle;
                 param = command.Parameters.Add("@text", SqlDbType.Text);
-                if (!String.IsNullOrEmpty(text))
-                    param.Value = text;
-                else
-                    param.Value = "null";
+                param.Value = noteText;
                 command.ExecuteNonQuery();
                 Disconnect();
                 return 1;
@@ -167,6 +164,83 @@ namespace Notebook {
             }
         }
 
+        /// <summary>
+        /// gets all user notes from detabase.
+        /// </summary>
+        /// <returns>
+        /// a detaSet of user notes.
+        /// </returns>
+        public DataSet GetUserNotes(int writerID) {
+            Connect();
+            SqlDataAdapter dataAdapter = new SqlDataAdapter();
+            SqlCommand command = new SqlCommand("SELECT * FROM Notes Where writerid = @writerID", this.connection);
+            SqlParameter param;
+            param = command.Parameters.Add("@writerID", SqlDbType.Int);
+            param.Value = writerID;
+            dataAdapter.SelectCommand = command;
+            DataSet result = new DataSet();
+            dataAdapter.Fill(result);
+            Disconnect();
+            return result;
+        }
+        /// <summary>
+        /// update note title and text.
+        /// </summary>
+        /// <returns>
+        /// -1 -> error
+        /// 1 -> ssuccess
+        /// </returns>
+        public int EditNote(int noteID, string noteTitle, string noteText) {
+            try {
+                noteTitle = CheckUserInput(noteTitle);
+                noteText = CheckUserInput(noteText);
+                Connect();
+                SqlCommand command = new SqlCommand();
+                command.Connection = this.connection;
+                command.CommandText =
+                    "Update notes " +
+                    "SET title = @noteTitle, text = @noteText " +
+                    "WHERE id = @noteID";
+                SqlParameter param;
+                param = command.Parameters.Add("@noteID", SqlDbType.Int);
+                param.Value = noteID;
+                param = command.Parameters.Add("@noteTitle", SqlDbType.NVarChar, 50);
+                param.Value = noteTitle;
+                param = command.Parameters.Add("@noteText", SqlDbType.Text);
+                param.Value = noteText;
+                command.ExecuteNonQuery();
+                Disconnect();
+                return 1;
+            }
+            catch (Exception e) {
+                return -1;
+            }
+        }
+
+        public int DeleteNote(int noteID) {
+            try {
+                Connect();
+                SqlCommand command = new SqlCommand();
+                command.Connection = this.connection;
+                command.CommandText =
+                    "DELETE FROM notes " +
+                    "WHERE id = @noteID";
+                SqlParameter param;
+                param = command.Parameters.Add("@noteID", SqlDbType.Int);
+                param.Value = noteID;
+                command.ExecuteNonQuery();
+                Disconnect();
+                return 1;
+            }
+            catch (Exception e) {
+                return -1;
+            }
+        }
+        #endregion Note Functions
+
+        private string CheckUserInput(string input) {
+            return String.IsNullOrEmpty(input) ? "null" : input;
+        }
         #region security
         /// <summary>
         /// hash the password.
@@ -205,19 +279,5 @@ namespace Notebook {
             return true;
         }
         #endregion security
-
-        public DataSet GetUserNotes(int writerID) {
-            Connect();
-            SqlDataAdapter dataAdapter = new SqlDataAdapter();
-            SqlCommand command = new SqlCommand("SELECT * FROM Notes Where writerid = @writerID", this.connection);
-            SqlParameter param;
-            param = command.Parameters.Add("@writerID", SqlDbType.Int);
-            param.Value = writerID;
-            dataAdapter.SelectCommand = command;
-            DataSet result = new DataSet();
-            dataAdapter.Fill(result);
-            Disconnect();
-            return result;
-        }
     }
 }

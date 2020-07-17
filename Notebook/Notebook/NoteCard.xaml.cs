@@ -6,7 +6,7 @@ namespace Notebook {
     /// Interaction logic for NoteCard.xaml
     /// </summary>
     public partial class NoteCard : UserControl {
-        public int id { get; }
+        public int noteID { get; }
         private string noteTitle;
         private string noteText;
         public bool IsSelected { get; set; }
@@ -17,7 +17,7 @@ namespace Notebook {
         }
         public NoteCard(int id, string noteTitle, string noteText) {
             InitializeComponent();
-            this.id = id;
+            this.noteID = id;
             this.noteTitle = noteTitle;
             this.noteText = noteText;
             textBlock_Title.Text = this.noteTitle;
@@ -36,7 +36,7 @@ namespace Notebook {
         }
 
         public ShowAndEditNote GetEditePage(MainPage homePage, Database database) {
-            return new ShowAndEditNote(homePage, database, id, noteTitle, noteText);
+            return new ShowAndEditNote(homePage, database, noteID, noteTitle, noteText);
         }
         private void SetTextBlocksText() {
             textBlock_Title.Text = this.noteTitle;

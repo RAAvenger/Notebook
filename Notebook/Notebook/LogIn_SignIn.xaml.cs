@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 namespace Notebook {
     public partial class LogIn_SignIn : Window {
@@ -286,5 +287,14 @@ namespace Notebook {
             }
         }
         #endregion
+
+        private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e) {
+            if (e.Key == Key.Enter) {
+                if (isLogIn && button_LogIn_Submit.IsEnabled)
+                    Button_LogIn_Submit_Click(null, null);
+                else if (!isLogIn && button_SignIn_Submit.IsEnabled)
+                    Button_SignIn_Submit_Click(null, null);
+            }
+        }
     }
 }

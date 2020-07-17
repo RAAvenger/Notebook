@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 namespace Notebook {
     /// <summary>
@@ -42,8 +43,17 @@ namespace Notebook {
                 noteCard.Width = 280;
                 noteCard.Height = 200;
                 noteCard.MouseUp += NoteCard_MouseUp;
+                noteCard.button_Delete.Click += Button_Delete_Click;
                 NoteCards.Children.Add(noteCard);
             }
+        }
+
+        private void Button_Delete_Click(object sender, RoutedEventArgs e) {
+            Button senderButton = (Button)sender;
+            Grid parentGrid = (Grid)senderButton.Parent;
+            NoteCard card = (NoteCard)parentGrid.Parent;
+            this.database.DeleteNote(card.noteID);
+            this.Refresh();
         }
         #region titleBar Buttons
         /// <summary>
@@ -93,5 +103,6 @@ namespace Notebook {
             page_Note.Show();
             this.Hide();
         }
+
     }
 }
