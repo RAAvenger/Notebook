@@ -108,7 +108,7 @@ namespace Notebook {
                     this.noteTitleChangedFlag = false;
                     this.noteTitle = textBox_Title.Text.Trim();
                     this.noteText = GetTextFromRichTextBox(richTextBox_Note).Trim();
-                    this.database.EditNote(this.noteID, this.noteTitle, this.noteText);
+                    this.database.EditNote(this.noteID, this.noteTitle == "تیتر را وارد کنید" ? "" : this.noteTitle, this.noteText);
                     CheckNoteChanges();
                 }
             }
