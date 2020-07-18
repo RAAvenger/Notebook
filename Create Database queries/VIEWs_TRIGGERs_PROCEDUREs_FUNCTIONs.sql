@@ -14,7 +14,7 @@ As
 		JOIN Users AS usr ON usr.id = log.writerID;
 
 go
-CREATE TRIGGER NewLog ON Logs
+CREATE TRIGGER NewLog ON Notes
 AFTER INSERT
 AS
 BEGIN
