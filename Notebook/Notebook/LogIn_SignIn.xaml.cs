@@ -11,6 +11,7 @@ namespace Notebook {
         private List<Error> listErrors;
         private Database database;
         private MainPage homePage;
+        private TitleBar titleBar;
         #endregion variables
 
         #region Error data structur
@@ -30,12 +31,14 @@ namespace Notebook {
 
         public LogIn_SignIn(MainPage homePage, Database database) {
             InitializeComponent();
+            titleBar = new TitleBar(this, homePage);
             this.homePage = homePage;
             this.database = database;
-            this.isLogIn = true;
-            this.listErrors = new List<Error>();
-            this.listErrors.Add(new Error("LogIn_Username", ErrorMessage.required));
-            this.listErrors.Add(new Error("LogIn_Password", ErrorMessage.required));
+            isLogIn = true;
+            listErrors = new List<Error> {
+                new Error("LogIn_Username", ErrorMessage.required),
+                new Error("LogIn_Password", ErrorMessage.required)
+            };
             button_LogIn_Submit.IsEnabled = false;
         }
 
@@ -44,45 +47,35 @@ namespace Notebook {
         /// back to log in form. 
         /// </summary>
         private void Button_Back_Click(object sender, RoutedEventArgs e) {
-            this.isLogIn = false;
+            isLogIn = false;
             form_LogIn.Visibility = Visibility.Visible;
             form_SignIn.Visibility = Visibility.Collapsed;
             button_Back.Visibility = Visibility.Collapsed;
-            this.Title = "Log In";
+            Title = "Log In";
             button_LogIn_Submit.IsEnabled = false;
-            this.listErrors.Clear();
-            this.listErrors.Add(new Error("LogIn_Username", ErrorMessage.required));
-            this.listErrors.Add(new Error("LogIn_Password", ErrorMessage.required));
+            listErrors.Clear();
+            listErrors.Add(new Error("LogIn_Username", ErrorMessage.required));
+            listErrors.Add(new Error("LogIn_Password", ErrorMessage.required));
 
         }
         /// <summary>
         /// Close Window.
         /// </summary>
         private void Button_Close_Click(object sender, RoutedEventArgs e) {
-            Application.Current.Shutdown();
+            titleBar.Close();
         }
         /// <summary>
         /// call AdjustWindowSize() to change window size.
         /// </summary>
         private void Button_Maximize_Click(object sender, RoutedEventArgs e) {
-            AdjustWindowSize();
+            titleBar.Maximize(sender);
+            homePage.Button_Maximize_Click(homePage.button_Maximize, null);
         }
         /// <summary>
         /// Minimize Window.
         /// </summary>
         private void Button_Minimize_Click(object sender, RoutedEventArgs e) {
-            this.WindowState = WindowState.Minimized;
-        }
-        /// <summary>
-        /// Change window size from original size to maximum size and vice versa.
-        /// </summary>
-        private void AdjustWindowSize() {
-            if (this.WindowState == WindowState.Maximized) {
-                this.WindowState = WindowState.Normal;
-            }
-            else {
-                this.WindowState = WindowState.Maximized;
-            }
+            titleBar.Minimize();
         }
         #endregion TitleBar
 
@@ -91,16 +84,16 @@ namespace Notebook {
         /// show Sign In Form and Hide Log In Form
         /// </summary>
         private void Button_SignIn_Click(object sender, RoutedEventArgs e) {
-            this.isLogIn = false;
+            isLogIn = false;
             form_LogIn.Visibility = Visibility.Collapsed;
             form_SignIn.Visibility = Visibility.Visible;
             button_Back.Visibility = Visibility.Visible;
-            this.Title = "Sign In";
+            Title = "Sign In";
             button_SignIn_Submit.IsEnabled = false;
-            this.listErrors.Clear();
-            this.listErrors.Add(new Error("SignIn_Username", ErrorMessage.required));
-            this.listErrors.Add(new Error("SignIn_Password", ErrorMessage.required));
-            this.listErrors.Add(new Error("SignIn_Confirmation", ErrorMessage.required));
+            listErrors.Clear();
+            listErrors.Add(new Error("SignIn_Username", ErrorMessage.required));
+            listErrors.Add(new Error("SignIn_Password", ErrorMessage.required));
+            listErrors.Add(new Error("SignIn_Confirmation", ErrorMessage.required));
         }
         #endregion open sign in form and close log in form
 
@@ -112,10 +105,10 @@ namespace Notebook {
             textBox_LogIn_Username.Text = textBox_LogIn_Username.Text.Trim();
             int validationResult = database.UserValidation(textBox_LogIn_Username.Text, passwordBox_LogIn_Password.Password);
             if (validationResult > 0) {
-                this.homePage.SetUserIdAndUsername(validationResult, textBox_LogIn_Username.Text);
-                this.homePage.Refresh();
-                this.homePage.Show();
-                this.Close();
+                homePage.SetUserIdAndUsername(validationResult, textBox_LogIn_Username.Text);
+                homePage.Refresh();
+                homePage.Show();
+                Close();
             }
             else {
                 listErrors.Add(new Error("LogIn_Password", ErrorMessage.invalidUser));
@@ -130,10 +123,10 @@ namespace Notebook {
             textBox_SignIn_Username.Text = textBox_SignIn_Username.Text.Trim();
             int addewUserResult = database.AddNewUser(textBox_SignIn_Username.Text, passwordBox_SignIn_Password.Password);
             if (addewUserResult > 0) {
-                this.homePage.SetUserIdAndUsername(addewUserResult, textBox_SignIn_Username.Text);
-                this.homePage.Refresh();
-                this.homePage.Show();
-                this.Close();
+                homePage.SetUserIdAndUsername(addewUserResult, textBox_SignIn_Username.Text);
+                homePage.Refresh();
+                homePage.Show();
+                Close();
             }
             else
                 MessageBox.Show("Error");

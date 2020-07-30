@@ -76,8 +76,9 @@
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
-                <StackPanel>
-                    <Image Source="Images\maximize.png" Width="20"/>
+                <StackPanel Name="stackPanel">
+                    <Image Name="maximize" Source="Images\maximize.png" Width="20" Visibility="Visible"/>
+                    <Image Name="normalSize" Source="Images\NormalSize.png" Width="20" Visibility="Collapsed"/>
                 </StackPanel>
             </Button>
             <Button Name="button_Minimize" ToolTip="Minimize" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="4" Click="Button_Minimize_Click">

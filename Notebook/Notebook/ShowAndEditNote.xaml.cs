@@ -19,10 +19,12 @@ namespace Notebook {
         private string noteText;
         private Database database;
         private MainPage homePage;
+        private TitleBar titleBar;
         #endregion variables
 
         public ShowAndEditNote(MainPage homePage, Database database, int userID) {
             InitializeComponent();
+            this.titleBar = new TitleBar(this, homePage);
             this.homePage = homePage;
             this.database = database;
             this.userID = userID;
@@ -34,6 +36,7 @@ namespace Notebook {
         }
         public ShowAndEditNote(MainPage homePage, Database database, int noteID, string noteTitle, string noteText) {
             InitializeComponent();
+            this.titleBar = new TitleBar(this, homePage);
             this.homePage = homePage;
             this.database = database;
             this.noteID = noteID;
@@ -53,38 +56,26 @@ namespace Notebook {
         /// back to prev Page. 
         /// </summary>
         private void Button_Back_Click(object sender, RoutedEventArgs e) {
-            this.homePage.Refresh();
-            this.homePage.Show();
-            this.Close();
+            titleBar.Back();
         }
         /// <summary>
         /// Close Window.
         /// </summary>
         private void Button_Close_Click(object sender, RoutedEventArgs e) {
-            Application.Current.Shutdown();
+            titleBar.Close();
         }
         /// <summary>
         /// call AdjustWindowSize() to change window size.
         /// </summary>
         private void Button_Maximize_Click(object sender, RoutedEventArgs e) {
-            AdjustWindowSize();
+            titleBar.Maximize(sender);
+            homePage.Button_Maximize_Click(homePage.button_Minimize, null);
         }
         /// <summary>
         /// Minimize Window.
         /// </summary>
         private void Button_Minimize_Click(object sender, RoutedEventArgs e) {
-            this.WindowState = WindowState.Minimized;
-        }
-        /// <summary>
-        /// Change window size from original size to maximum size and vice versa.
-        /// </summary>
-        private void AdjustWindowSize() {
-            if (this.WindowState == WindowState.Maximized) {
-                this.WindowState = WindowState.Normal;
-            }
-            else {
-                this.WindowState = WindowState.Maximized;
-            }
+            titleBar.Minimize();
         }
         #endregion titleBar Buttons
 

@@ -14,14 +14,38 @@ namespace Notebook {
         private Database database;
         private LogIn_SignIn Page_logIn;
         private ShowAndEditNote page_Note;
+        private TitleBar titleBar;
         #endregion variables.
         public MainPage() {
             InitializeComponent();
+            WindowState = WindowState.Normal;
+            this.titleBar = new TitleBar(this);
             this.database = new Database();
             Page_logIn = new LogIn_SignIn(this, this.database);
             Page_logIn.Show();
+            Page_logIn.WindowState = this.WindowState;
             this.Hide();
         }
+        #region titleBar Buttons
+        /// <summary>
+        /// Close Window.
+        /// </summary>
+        private void Button_Close_Click(object sender, RoutedEventArgs e) {
+            titleBar.Close();
+        }
+        /// <summary>
+        /// call AdjustWindowSize() to change window size.
+        /// </summary>
+        public void Button_Maximize_Click(object sender, RoutedEventArgs e) {
+            titleBar.Maximize(sender);
+        }
+        /// <summary>
+        /// Minimize Window.
+        /// </summary>
+        private void Button_Minimize_Click(object sender, RoutedEventArgs e) {
+            titleBar.Minimize();
+        }
+        #endregion titleBar Buttons
 
         /// <summary>
         /// set username and userID.
@@ -64,40 +88,6 @@ namespace Notebook {
             this.database.DeleteNote(card.noteID);
             this.Refresh();
         }
-        
-        #region titleBar Buttons
-        /// <summary>
-        /// Close Window.
-        /// </summary>
-        private void Button_Close_Click(object sender, RoutedEventArgs e) {
-            Application.Current.Shutdown();
-        }
-        /// <summary>
-        /// call AdjustWindowSize() to change window size.
-        /// </summary>
-        private void Button_Maximize_Click(object sender, RoutedEventArgs e) {
-            AdjustWindowSize();
-        }
-        /// <summary>
-        /// Minimize Window.
-        /// </summary>
-        private void Button_Minimize_Click(object sender, RoutedEventArgs e) {
-            this.WindowState = WindowState.Minimized;
-        }
-        /// <summary>
-        /// Change window size from original size to maximum size and vice versa.
-        /// </summary>
-        private void AdjustWindowSize() {
-            if (this.WindowState == WindowState.Maximized) {
-                this.WindowState = WindowState.Normal;
-            }
-            else {
-                this.WindowState = WindowState.Maximized;
-            }
-        }
-
-
-        #endregion titleBar Buttons
 
         /// <summary>
         /// open card on mouse up.
@@ -120,6 +110,9 @@ namespace Notebook {
             this.Hide();
         }
 
+        /// <summary>
+        /// Loging out and showing log in page.
+        /// </summary>
         private void Button_LogOut_Click(object sender, RoutedEventArgs e) {
             this.userID = 0;
             this.username = null;
