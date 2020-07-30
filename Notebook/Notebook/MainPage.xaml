@@ -12,7 +12,9 @@
     WindowStartupLocation="CenterScreen"
     MinWidth="1180" 
     MinHeight="655"
->
+    Height="{Binding Height, Mode=OneWayToSource}"
+    Width="{Binding Width, Mode=OneWayToSource}"
+    >
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="32"/>
     </WindowChrome.WindowChrome>

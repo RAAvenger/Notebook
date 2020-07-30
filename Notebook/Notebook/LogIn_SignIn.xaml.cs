@@ -12,6 +12,7 @@ namespace Notebook {
         private Database database;
         private MainPage homePage;
         private TitleBar titleBar;
+        private WindowProperties windowProperties;
         #endregion variables
 
         #region Error data structur
@@ -27,10 +28,11 @@ namespace Notebook {
                 this.Message = Message;
             }
         }
-        #endregion
+        #endregion Error data structur
 
-        public LogIn_SignIn(MainPage homePage, Database database) {
+        public LogIn_SignIn(MainPage homePage, Database database, WindowProperties windowProperties) {
             InitializeComponent();
+            this.windowProperties = windowProperties;
             titleBar = new TitleBar(this, homePage);
             this.homePage = homePage;
             this.database = database;
@@ -69,7 +71,6 @@ namespace Notebook {
         /// </summary>
         private void Button_Maximize_Click(object sender, RoutedEventArgs e) {
             titleBar.Maximize(sender);
-            homePage.Button_Maximize_Click(homePage.button_Maximize, null);
         }
         /// <summary>
         /// Minimize Window.
@@ -150,12 +151,14 @@ namespace Notebook {
         /// check username: required.
         /// </summary>
         private void TextBox_LogIn_Username_TextChanged(object sender, TextChangedEventArgs e) {
-            if (String.IsNullOrEmpty(textBox_LogIn_Username.Text) || String.IsNullOrWhiteSpace(textBox_LogIn_Username.Text))
+            if (string.IsNullOrEmpty(textBox_LogIn_Username.Text) || string.IsNullOrWhiteSpace(textBox_LogIn_Username.Text)) {
                 listErrors.Add(new Error("LogIn_Username", ErrorMessage.required));
+            }
             else {
                 List<int> elementErrors = FindFieldErrorsIndexes(listErrors, "LogIn_Username");
-                for (int i = elementErrors.Count - 1; i >= 0; i--)
+                for (int i = elementErrors.Count - 1; i >= 0; i--) {
                     listErrors.RemoveAt(elementErrors[i]);
+                }
             }
             PasswordBox_LogIn_Password_PasswordChanged(null, null);
             ValidateForm();
@@ -165,10 +168,13 @@ namespace Notebook {
         /// </summary>
         private void PasswordBox_LogIn_Password_PasswordChanged(object sender, RoutedEventArgs e) {
             List<int> elementErrors = FindFieldErrorsIndexes(listErrors, "LogIn_Password");
-            for (int i = elementErrors.Count - 1; i >= 0; i--)
+            for (int i = elementErrors.Count - 1; i >= 0; i--) {
                 listErrors.RemoveAt(elementErrors[i]);
-            if (String.IsNullOrEmpty(passwordBox_LogIn_Password.Password) || String.IsNullOrWhiteSpace(passwordBox_LogIn_Password.Password))
+            }
+            if (string.IsNullOrEmpty(passwordBox_LogIn_Password.Password) || string.IsNullOrWhiteSpace(passwordBox_LogIn_Password.Password)) {
                 listErrors.Add(new Error("LogIn_Password", ErrorMessage.required));
+            }
+
             ValidateForm();
         }
 
@@ -177,10 +183,12 @@ namespace Notebook {
         /// </summary>
         private void TextBox_SignIn_Username_TextChanged(object sender, TextChangedEventArgs e) {
             List<int> elementErrors = FindFieldErrorsIndexes(listErrors, "SignIn_Username");
-            for (int i = elementErrors.Count - 1; i >= 0; i--)
+            for (int i = elementErrors.Count - 1; i >= 0; i--) {
                 listErrors.RemoveAt(elementErrors[i]);
-            if (String.IsNullOrEmpty(textBox_SignIn_Username.Text) || String.IsNullOrWhiteSpace(textBox_SignIn_Username.Text))
+            }
+            if (string.IsNullOrEmpty(textBox_SignIn_Username.Text) || string.IsNullOrWhiteSpace(textBox_SignIn_Username.Text)) {
                 listErrors.Add(new Error("SignIn_Username", ErrorMessage.required));
+            }
             else if (database.FindUser(textBox_SignIn_Username.Text) > 0) {
                 listErrors.Add(new Error("SignIn_Username", ErrorMessage.usernameAlredyExists));
                 MessageBox.Show("alredy exists.");
@@ -191,8 +199,9 @@ namespace Notebook {
         /// check password: required.
         /// </summary>
         private void PasswordBox_SignIn_Password_PasswordChanged(object sender, RoutedEventArgs e) {
-            if (String.IsNullOrEmpty(passwordBox_SignIn_Password.Password) || String.IsNullOrWhiteSpace(passwordBox_SignIn_Password.Password))
+            if (string.IsNullOrEmpty(passwordBox_SignIn_Password.Password) || string.IsNullOrWhiteSpace(passwordBox_SignIn_Password.Password)) {
                 listErrors.Add(new Error("SignIn_Password", ErrorMessage.required));
+            }
             else {
                 List<int> elementErrors = FindFieldErrorsIndexes(listErrors, "SignIn_Password");
                 for (int i = elementErrors.Count - 1; i >= 0; i--)
@@ -206,10 +215,12 @@ namespace Notebook {
         /// </summary>
         private void PasswordBox_SignIn_Confirmation_PasswordChanged(object sender, RoutedEventArgs e) {
             List<int> elementErrors = FindFieldErrorsIndexes(listErrors, "SignIn_Confirmation");
-            for (int i = elementErrors.Count - 1; i >= 0; i--)
+            for (int i = elementErrors.Count - 1; i >= 0; i--) {
                 listErrors.RemoveAt(elementErrors[i]);
-            if (String.IsNullOrEmpty(passwordBox_SignIn_Confirmation.Password) || String.IsNullOrWhiteSpace(passwordBox_SignIn_Confirmation.Password))
+            }
+            if (string.IsNullOrEmpty(passwordBox_SignIn_Confirmation.Password) || string.IsNullOrWhiteSpace(passwordBox_SignIn_Confirmation.Password)) {
                 listErrors.Add(new Error("SignIn_Confirmation", ErrorMessage.required));
+            }
             else if (passwordBox_SignIn_Confirmation.Password != passwordBox_SignIn_Password.Password) {
                 listErrors.Add(new Error("SignIn_Confirmation", ErrorMessage.wrongPasswordConfirmation));
             }
@@ -225,10 +236,13 @@ namespace Notebook {
         private void ValidateForm() {
             ClearErrors();
             if (listErrors.Count != 0) {
-                if (isLogIn)
+                if (isLogIn) {
                     button_LogIn_Submit.IsEnabled = false;
-                else
+                }
+                else {
                     button_SignIn_Submit.IsEnabled = false;
+                }
+
                 foreach (Error error in listErrors) {
                     string name = string.Concat("textBlock_", error.FieldName, "_Error_", error.Message.ToString());
                     TextBlock textBlock_Error = new TextBlock() {
@@ -341,6 +355,5 @@ namespace Notebook {
             }
         }
         #endregion
-
-    }
+            }
 }

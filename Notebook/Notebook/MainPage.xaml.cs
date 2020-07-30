@@ -15,18 +15,20 @@ namespace Notebook {
         private LogIn_SignIn Page_logIn;
         private ShowAndEditNote page_Note;
         private TitleBar titleBar;
+        public WindowProperties windowProperties;
         #endregion variables.
+
         public MainPage() {
             InitializeComponent();
-            WindowState = WindowState.Normal;
+            windowProperties = new WindowProperties(Top, Left, Height, Width, WindowState);
             this.titleBar = new TitleBar(this);
             this.database = new Database();
-            Page_logIn = new LogIn_SignIn(this, this.database);
+            Page_logIn = new LogIn_SignIn(this, this.database, windowProperties);
             Page_logIn.Show();
-            Page_logIn.WindowState = this.WindowState;
             this.Hide();
         }
-        #region titleBar Buttons
+
+        #region titleBar
         /// <summary>
         /// Close Window.
         /// </summary>

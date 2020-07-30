@@ -8,7 +8,6 @@ namespace Notebook {
     /// Interaction logic for Edit_Note.xaml
     /// </summary>
     public partial class ShowAndEditNote : Window {
-
         #region variables
         private bool newNoteFlage = false;
         private bool noteTitleChangedFlag;
@@ -20,38 +19,41 @@ namespace Notebook {
         private Database database;
         private MainPage homePage;
         private TitleBar titleBar;
+        private WindowProperties windowProperties;
         #endregion variables
 
-        public ShowAndEditNote(MainPage homePage, Database database, int userID) {
+        public ShowAndEditNote(MainPage homePage, Database database, int userID, WindowProperties windowProperties) {
             InitializeComponent();
-            this.titleBar = new TitleBar(this, homePage);
+            this.windowProperties = windowProperties;
+            titleBar = new TitleBar(this, homePage);
             this.homePage = homePage;
             this.database = database;
             this.userID = userID;
-            this.newNoteFlage = true;
+            newNoteFlage = true;
             textBox_Title.Text = "تیتر را وارد کنید";
-            this.noteTextChangedFlag = false;
-            this.noteTitleChangedFlag = false;
+            noteTextChangedFlag = false;
+            noteTitleChangedFlag = false;
             CheckNoteChanges();
         }
-        public ShowAndEditNote(MainPage homePage, Database database, int noteID, string noteTitle, string noteText) {
+        public ShowAndEditNote(MainPage homePage, Database database, int noteID, string noteTitle, string noteText, WindowProperties windowProperties) {
             InitializeComponent();
-            this.titleBar = new TitleBar(this, homePage);
+            this.windowProperties = windowProperties;
+            titleBar = new TitleBar(this, homePage);
             this.homePage = homePage;
             this.database = database;
             this.noteID = noteID;
             this.noteTitle = noteTitle == "null" ? "تیتر را وارد کنید" : noteTitle;
             this.noteText = noteText == "null" ? null : noteText;
-            this.newNoteFlage = false;
+            newNoteFlage = false;
             textBox_Title.Text = this.noteTitle;
             richTextBox_Note.Document.Blocks.Clear();
             richTextBox_Note.Document.Blocks.Add(new Paragraph(new Run(this.noteText)));
-            this.noteTextChangedFlag = false;
-            this.noteTitleChangedFlag = false;
+            noteTextChangedFlag = false;
+            noteTitleChangedFlag = false;
             CheckNoteChanges();
         }
 
-        #region titleBar Buttons
+        #region titleBar
         /// <summary>
         /// back to prev Page. 
         /// </summary>
@@ -69,7 +71,6 @@ namespace Notebook {
         /// </summary>
         private void Button_Maximize_Click(object sender, RoutedEventArgs e) {
             titleBar.Maximize(sender);
-            homePage.Button_Maximize_Click(homePage.button_Minimize, null);
         }
         /// <summary>
         /// Minimize Window.
@@ -88,18 +89,18 @@ namespace Notebook {
                 MessageBox.Show("Note is Empty");
             }
             else {
-                if (this.newNoteFlage) {
-                    database.AddNewNote(this.userID, textBox_Title.Text.Trim() == "تیتر را وارد کنید" ? "" : textBox_Title.Text.Trim(), GetTextFromRichTextBox(richTextBox_Note).Trim());
-                    this.homePage.Refresh();
-                    this.homePage.Show();
-                    this.Close();
+                if (newNoteFlage) {
+                    database.AddNewNote(userID, textBox_Title.Text.Trim() == "تیتر را وارد کنید" ? "" : textBox_Title.Text.Trim(), GetTextFromRichTextBox(richTextBox_Note).Trim());
+                    homePage.Refresh();
+                    homePage.Show();
+                    Close();
                 }
                 else {
-                    this.noteTextChangedFlag = false;
-                    this.noteTitleChangedFlag = false;
-                    this.noteTitle = textBox_Title.Text.Trim();
-                    this.noteText = GetTextFromRichTextBox(richTextBox_Note).Trim();
-                    this.database.EditNote(this.noteID, this.noteTitle == "تیتر را وارد کنید" ? "" : this.noteTitle, this.noteText);
+                    noteTextChangedFlag = false;
+                    noteTitleChangedFlag = false;
+                    noteTitle = textBox_Title.Text.Trim();
+                    noteText = GetTextFromRichTextBox(richTextBox_Note).Trim();
+                    database.EditNote(noteID, noteTitle == "تیتر را وارد کنید" ? "" : noteTitle, noteText);
                     CheckNoteChanges();
                 }
             }
@@ -108,16 +109,16 @@ namespace Notebook {
         /// discard changes.
         /// </summary>
         private void Button_Cancel_Click(object sender, RoutedEventArgs e) {
-            if (this.newNoteFlage) {
-                this.homePage.Show();
-                this.Close();
+            if (newNoteFlage) {
+                homePage.Show();
+                Close();
             }
             else {
-                textBox_Title.Text = this.noteTitle;
+                textBox_Title.Text = noteTitle;
                 richTextBox_Note.Document.Blocks.Clear();
-                richTextBox_Note.Document.Blocks.Add(new Paragraph(new Run(this.noteText)));
-                this.noteTextChangedFlag = false;
-                this.noteTitleChangedFlag = false;
+                richTextBox_Note.Document.Blocks.Add(new Paragraph(new Run(noteText)));
+                noteTextChangedFlag = false;
+                noteTitleChangedFlag = false;
                 CheckNoteChanges();
             }
         }
@@ -125,22 +126,12 @@ namespace Notebook {
 
         #region TextChanged Functions
         private void TextBox_Title_TextChanged(object sender, TextChangedEventArgs e) {
-            if (String.Compare(this.noteTitle, textBox_Title.Text.Trim()) != 0) {
-                this.noteTitleChangedFlag = true;
-            }
-            else {
-                this.noteTitleChangedFlag = false;
-            }
+            noteTitleChangedFlag = string.Compare(noteTitle, textBox_Title.Text.Trim()) != 0 ? true : false;
             CheckNoteChanges();
         }
 
         private void RichTextBox_Edit_Note_TextChanged(object sender, TextChangedEventArgs e) {
-            if (String.Compare(this.noteText, GetTextFromRichTextBox(richTextBox_Note).Trim()) != 0) {
-                this.noteTextChangedFlag = true;
-            }
-            else {
-                this.noteTextChangedFlag = false;
-            }
+            noteTextChangedFlag = string.Compare(noteText, GetTextFromRichTextBox(richTextBox_Note).Trim()) != 0 ? true : false;
             CheckNoteChanges();
         }
         #endregion TextChanged Functions
@@ -169,7 +160,7 @@ namespace Notebook {
                     button_Cancel.IsEnabled = false;
                     button_Cancel.Visibility = Visibility.Hidden;
                 }
-                else if (this.noteTitleChangedFlag || noteTextChangedFlag) {
+                else if (noteTitleChangedFlag || noteTextChangedFlag) {
                     button_OK.IsEnabled = true;
                     button_OK.Visibility = Visibility.Visible;
                     button_Cancel.IsEnabled = true;
@@ -190,8 +181,8 @@ namespace Notebook {
         private void TextBox_Title_GotFocus(object sender, RoutedEventArgs e) {
             if (textBox_Title.Text.Trim() == "تیتر را وارد کنید") {
                 textBox_Title.Text = null;
-                this.noteTitleChangedFlag = false;
-                this.noteTextChangedFlag = false;
+                noteTitleChangedFlag = false;
+                noteTextChangedFlag = false;
                 CheckNoteChanges();
             }
         }
@@ -199,8 +190,8 @@ namespace Notebook {
         private void TextBox_Title_LostFocus(object sender, RoutedEventArgs e) {
             if (string.IsNullOrEmpty(textBox_Title.Text.Trim())) {
                 textBox_Title.Text = "تیتر را وارد کنید";
-                this.noteTitleChangedFlag = false;
-                this.noteTextChangedFlag = false;
+                noteTitleChangedFlag = false;
+                noteTextChangedFlag = false;
                 CheckNoteChanges();
             }
         }

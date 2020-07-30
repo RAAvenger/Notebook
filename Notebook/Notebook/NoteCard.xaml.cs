@@ -14,14 +14,14 @@ namespace Notebook {
 
         public NoteCard() {
             InitializeComponent();
-            this.IsSelected = false;
+            IsSelected = false;
         }
         public NoteCard(int id, string noteTitle, string noteText) {
             InitializeComponent();
-            this.noteID = id;
+            noteID = id;
             this.noteTitle = noteTitle;
             this.noteText = noteText;
-            this.IsSelected = false;
+            IsSelected = false;
             ShowTitleAndText();
         }
         private string SmallText(string text, bool isTitle) {
@@ -39,37 +39,37 @@ namespace Notebook {
             return text;
         }
         public ShowAndEditNote GetEditePage(MainPage homePage, Database database) {
-            return new ShowAndEditNote(homePage, database, noteID, noteTitle, noteText);
+            return new ShowAndEditNote(homePage, database, noteID, noteTitle, noteText, homePage.windowProperties);
         }
         private void SetTextBlocksText() {
-            textBlock_Title.Text = this.noteTitle;
-            textBlock_ShortNote.Text = this.noteText;
+            textBlock_Title.Text = noteTitle;
+            textBlock_ShortNote.Text = noteText;
         }
         public void Selected() {
             grid_Contaner.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x78, 0xC4, 0x25));
-            this.IsSelected = true;
+            IsSelected = true;
         }
         public void UnSelected() {
             grid_Contaner.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0x00, 0x00));
-            this.IsSelected = false;
+            IsSelected = false;
         }
         private void ShowTitleAndText() {
-            if (this.noteTitle == "null") {
+            if (noteTitle == "null") {
                 textBlock_Title.Visibility = Visibility.Collapsed;
                 line_betwinTitleAndText.Visibility = Visibility.Collapsed;
                 textBlock_ShortNote.SetValue(Grid.RowProperty, 1);
                 textBlock_ShortNote.SetValue(Grid.RowSpanProperty, 4);
             }
             else {
-                textBlock_Title.Text = SmallText(this.noteTitle, true);
+                textBlock_Title.Text = SmallText(noteTitle, true);
             }
-            if (this.noteText == "null") {
+            if (noteText == "null") {
                 textBlock_ShortNote.Text = "خالی";
                 textBlock_ShortNote.Padding = new Thickness(10);
                 textBlock_ShortNote.FontSize = 25;
             }
             else {
-                textBlock_ShortNote.Text = SmallText(this.noteText, false);
+                textBlock_ShortNote.Text = SmallText(noteText, false);
             }
         }
     }
